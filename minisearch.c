@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
 	
 	char **arr;
 	arr = malloc(sizeof(char*)*lines);
-	for (int i=0;i<lines;i++)
-		arr[i] = malloc(sizeof(char)*(max+1));
+	// for (int i=0;i<lines;i++)
+	// 	arr[i] = malloc(sizeof(char)*(max+1));
 
 	fseek(fp, 0, SEEK_SET);
 	char *str1;
@@ -63,8 +63,11 @@ int main(int argc, char *argv[])
 		while(1)
 		{
 			fscanf(fp, "%s", str1);
-			if (fgets(arr[i], max+1, fp) == NULL)
+			if (fgets(str1, max+1, fp) == NULL)
 				break;
+			printf("length %ld\n", strlen(str1));
+			arr[i] = malloc(sizeof(char)*strlen(str1));
+			strcpy(arr[i], str1);
 			printf("%s", arr[i]);
 			
 		}
