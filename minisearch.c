@@ -62,13 +62,14 @@ int main(int argc, char *argv[])
 	{
 		while(1)
 		{
-			fscanf(fp, "%s", str1);
-			if (fgets(str1, max+1, fp) == NULL)
+			fscanf(fp, "%s", str1);					//takes first word
+			c = getc(fp);							//takes space after first word
+			if (fgets(str1, max, fp) == NULL)		// sentence i want
 				break;
 			printf("length %ld\n", strlen(str1));
 			arr[i] = malloc(sizeof(char)*strlen(str1));
 			strcpy(arr[i], str1);
-			printf("%s", arr[i]);
+			printf("%s", str1);
 			
 		}
 	}
