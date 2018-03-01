@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "get_info.h"
+#include "map.h"
 
 void Usage(char *prog_name)			/* Usage */
 {
@@ -47,37 +48,29 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	
-	char **arr;
-	arr = malloc(sizeof(char*)*lines);
-	// for (int i=0;i<lines;i++)
-	// 	arr[i] = malloc(sizeof(char)*(max+1));
+	char **arr;					
+	arr = malloc(sizeof(char*)*lines);				//array to store sentences
 
-	fseek(fp, 0, SEEK_SET);
-	char *str1;
-	str1 = malloc(sizeof(char)*(max+1));
+	char *str;
+	str = malloc(sizeof(char)*(max+1));				// temp string
 	
-	//proxora apo thn arxh ths grammhs mexri na breis keno , diladi na exei perasei to id
-	//kai meta pare oli ti grammh kai balti sto map
-	for (int i=0;i<lines;i++)
+	fseek(fp, 0, SEEK_SET);
+	for (int i=0;i<lines;i++)						//store sentences in array
 	{
-		while(1)
-		{
-			fscanf(fp, "%s", str1);							//takes first word
-			c = getc(fp);									//takes space after first word
-			if (fgets(str1, max, fp) == NULL)				// sentence i want
-				break;
-			printf("length %ld\n", strlen(str1));
-			arr[i] = malloc(sizeof(char)*strlen(str1));
-			strcpy(arr[i], str1);
-			printf("%s", str1);
-			
-		}
-	}
+		fscanf(fp, "%s", str);
+		c = getc(fp);
+		fgets(str, max+1, fp);
+		arr[i] = malloc(sizeof(char)*strlen(str));
+		strcpy(arr[i], str);
+	}	
+
+	for (int i=0;i<lines;i++)
+		printf("%s\n", arr[i]);
+	
 
 
 
 	fclose(fp);
-	printf("\nEND %s\n",arr[1]);
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);
 
 	
