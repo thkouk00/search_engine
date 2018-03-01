@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "get_info.h"
-#include "map.h"
 
 void Usage(char *prog_name)			/* Usage */
 {
