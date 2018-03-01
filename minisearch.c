@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "ERROR DETECTED.\n");
 		return 1;
 	}
-	printf("MAX %d\n",max);
+	
 	char **arr;
-	arr = malloc(sizeof(char)*lines);
-	for (int i=0;i<sizeof(char)*lines;i++)
+	arr = malloc(sizeof(char*)*lines);
+	for (int i=0;i<lines;i++)
 		arr[i] = malloc(sizeof(char)*(max+1));
 
 	fseek(fp, 0, SEEK_SET);
@@ -58,28 +58,22 @@ int main(int argc, char *argv[])
 	
 	//proxora apo thn arxh ths grammhs mexri na breis keno , diladi na exei perasei to id
 	//kai meta pare oli ti grammh kai balti sto map
-
-	long temp;
-	for (int i=0;i<=sizeof(char)*lines;i++)
+	for (int i=0;i<lines;i++)
 	{
-		fgets(arr[i], sizeof(char)*(max+1), fp);
-
-		printf("%s\n",arr[i]);
-		//strcpy(arr[i], str1);
-		// while(!feof(fp))
-		// {	
-		// 	// fgets(str1, sizeof(char)*(max+1), fp);
-		// 	fscanf(fp, " %s", str1);
-		// 	strcpy(arr[i], str1);
-
-		// 	fgets(arr[i], sizeof(char)*(max+1), fp);
-		// 	printf("%s\n", arr[i]);
-		// 	break;
-		// }
+		while(1)
+		{
+			fscanf(fp, "%s", str1);
+			if (fgets(arr[i], max+1, fp) == NULL)
+				break;
+			printf("%s", arr[i]);
+			
+		}
 	}
 
+
+
 	fclose(fp);
-	printf("END %s\n",arr[1]);
+	printf("\nEND %s\n",arr[1]);
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);
 
 	
