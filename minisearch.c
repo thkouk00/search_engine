@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "get_info.h"
+#include "trie.h"
 
 void Usage(char *prog_name)			/* Usage */
 {
@@ -56,8 +57,8 @@ int main(int argc, char *argv[])
 	fseek(fp, 0, SEEK_SET);
 	for (int i=0;i<lines;i++)						//store sentences in array
 	{
-		fscanf(fp, "%s", str);
-		c = getc(fp);
+		fscanf(fp, "%s ", str);
+		//c = getc(fp);		//useless logika
 		fgets(str, max+1, fp);
 		arr[i] = malloc(sizeof(char)*strlen(str));
 		strcpy(arr[i], str);
@@ -66,12 +67,17 @@ int main(int argc, char *argv[])
 	for (int i=0;i<lines;i++)
 		printf("%s\n", arr[i]);
 	
+	//create head node for trie
+	trieNode_t *root;
+	CreateTrie(&root);
+	AddNode(&root, "Thanos");
+	//AddNode(&root, "Mitsos");
+	//printNode(&root,"Mitsos");
+	printNode(&root,"Thanos");
 
-
-
-	fclose(fp);
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);
+	fclose(fp);
+	//na kanw ta free
 
-	
 	return 0;
 }
