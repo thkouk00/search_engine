@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 	if (argc < 2)
 	{
 		Usage(argv[0]);
+		exit(1);
 	}
 	else		
 	{
@@ -33,8 +34,11 @@ int main(int argc, char *argv[])
 				result_num = atoi(argv[i+1]);
 			}
 		}
-		if (!doc_flag)
+		if (!doc_flag){
+			printf("Dockfile required\n");
 			Usage(argv[0]);
+			exit(1);
+		}
 	}
 
 	int c;
@@ -70,37 +74,45 @@ int main(int argc, char *argv[])
 	//create head node for trie
 	trieNode_t *root;
 	CreateTrie(&root);
-	
-	for (int i =0;i<2;i++)
+	char *str1;
+	char *delimiter = malloc(sizeof(char));
+	*delimiter = ' ';
+
+	for (int i =0;i<lines;i++)
 	{
-		//printf("length of line %d : %ld\n",i+1,strlen(arr[i]));
-		str = strtok(arr[i], " ");
-		//printf("str %s\n",str);
-		// str = strtok(NULL, " ");
-		// printf("str %s\n",str);
-		while (str!=NULL)
+		str = arr[i];
+		str1 = strtok(str, delimiter);
+		
+		while (str1!=NULL)
 		{
-			AddNode(&root,str);
-			//printf("str %s\n",str);
-			str = strtok(NULL, " ");
+			printf("str %s\n",str1);
+			AddNode(&root,str1);
+			str1 = strtok(NULL, delimiter);
 		}
 	}
 
-	printNode(&root,"fun");
-	printNode(&root,"brown");
-	printNode(&root,"leaped");
-	printNode(&root,"for");
-	printNode(&root,"mitsos");
 
-	// AddNode(&root, "Thanos");
-	// AddNode(&root, "Mitsos");
-	// AddNode(&root, "ELENi");
-	// AddNode(&root, "Tram");
+	
+	printNode(&root,"poy");
+	printNode(&root,"grammes");
+	printNode(&root,"Everybody");
+	printNode(&root,"xvreaei");
+	printNode(&root,"re");
+	printNode(&root,"gamhtheite");		//na ftiaxv print gia lexeis poy den iparxoun
 
-	// printNode(&root,"Mitsos");
-	// printNode(&root,"Thanos");
-	// printNode(&root,"Tram");
-	// printNode(&root,"ELENi");
+	
+	// AddNode(&root, "What");
+	// AddNode(&root, "Where");
+	// AddNode(&root, "Which");
+	// AddNode(&root, "Whom");
+	// AddNode(&root, "Whicher");
+	// printNode(&root, "Which");
+	// printNode(&root, "Whom");
+	// printNode(&root, "Where");
+	// printNode(&root, "What");
+	// printNode(&root, "Whicher");
+	//AddNode(&root, "Whicher");
+
 
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);
 	fclose(fp);

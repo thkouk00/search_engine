@@ -81,17 +81,15 @@ void AddNode(trieNode_t **root,char *key)
 	{
 
 		// tempNode = tempNode->children;
-		//printf("ALAL\n");
 		if (tempNode->children == NULL)		
 		{
-			tempNode->children = CreateTrieNode(*key);		
+			tempNode->children = CreateTrieNode(*key);	
 			tempNode = tempNode->children;			
-			key++;
-			//printf("CHILD %c and key %c %s\n",tempNode->key,*key,tmpstr);									 
+			key++;								 
 		}
 		else
 		{
-			tempNode = tempNode->children;
+			tempNode = tempNode->children;	
 			if (tempNode->key == *key)
 			{
 				key++;
@@ -107,14 +105,23 @@ void AddNode(trieNode_t **root,char *key)
 				}
 				else
 				{
+					int flag = 0;
 					while (tempNode->neighbor != NULL)
 					{
-						if (tempNode->neighbor->key == *key)
+						tempNode = tempNode->neighbor;
+						if (tempNode->key == *key)
 						{
-							tempNode = tempNode->neighbor;
+							//tempNode = tempNode->neighbor;
 							key++;
+							flag++;
 							break;
 						}
+					}
+					if (!flag)
+					{
+						tempNode->neighbor = CreateTrieNode(*key);
+						tempNode = tempNode->neighbor;
+						key++;
 					}
 				}
 			}
@@ -125,7 +132,7 @@ void AddNode(trieNode_t **root,char *key)
 
 void printNode(trieNode_t **root,char *key)
 {
-	printf("PRINT\n");
+	printf("PRINT:");
 	int found = 0;
 	trieNode_t *tempNode = NULL;
 
