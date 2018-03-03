@@ -71,8 +71,9 @@ int main(int argc, char *argv[])
 	trieNode_t *root;
 	CreateTrie(&root);
 	AddNode(&root, "Thanos");
-	//AddNode(&root, "Mitsos");
-	//printNode(&root,"Mitsos");
+	// AddNode(&root, "Tram");
+	AddNode(&root, "Mitsos");
+	printNode(&root,"Mitsos");
 	printNode(&root,"Thanos");
 
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);

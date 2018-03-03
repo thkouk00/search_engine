@@ -34,11 +34,6 @@ void AddNode(trieNode_t **root,char *key)
 		exit(1);
 	}
 
-	// tempNode->children = CreateTrieNode(*key);
-	// tempNode = tempNode->children;
-	// key++;
-	// printf("KEY %c\n",*key);
-	// tempNode->children = CreateTrieNode(*key);
 	
 	tempNode = *root;
 	if (tempNode->children == NULL)		//no children , create first children
@@ -49,19 +44,23 @@ void AddNode(trieNode_t **root,char *key)
 	}
 	else
 	{
-		tempNode = tempNode->children;
-		if (tempNode->key == *key)
-			key++;
-		else
+		if (tempNode->children->key == *key)
 		{
+			key++;
+			//tempNode = tempNode->children;
+			printf("HEE\n");
+		}
+		else
+		{	
 			int flag = 0;
-			while (tempNode->neighbor !=NULL)
+			tempNode = tempNode->children;
+			while (tempNode->neighbor != NULL)
 			{
 				tempNode = tempNode->neighbor;
 				if (tempNode->key == *key)
 				{
+					flag++;
 					key++;
-					flag = 1;
 					break;
 				}
 			}
@@ -69,15 +68,17 @@ void AddNode(trieNode_t **root,char *key)
 			{
 				tempNode->neighbor = CreateTrieNode(*key);
 				tempNode = tempNode->neighbor;
-				printf("mpika\n");
+				printf("InSErT %c\n",tempNode->key);
 				key++;
 			}
 		}
+		
 	}
-	tempNode = tempNode->children;
+	//tempNode = tempNode->children;
 	while (*key != '\0')
 	{
-		//tempNode = tempNode->children;
+		// tempNode = tempNode->children;
+		printf("ALAL\n");
 		if (tempNode->children == NULL)		
 		{
 			tempNode->children = CreateTrieNode(*key);		
@@ -113,6 +114,7 @@ void AddNode(trieNode_t **root,char *key)
 
 void printNode(trieNode_t **root,char *key)
 {
+	printf("PRINT\n");
 	int found = 0;
 	trieNode_t *tempNode = NULL;
 
@@ -123,24 +125,12 @@ void printNode(trieNode_t **root,char *key)
 	}
 	
 	tempNode = *root;
-	// tempNode = tempNode->children;
-	// printf("%c\n",tempNode->key);
-	// if (tempNode->neighbor!=NULL)
-	// {
-		
-	// 	printf("neighbor %c\n",tempNode->neighbor->key);
-		
-	// 	printf("child %c\n",tempNode->neighbor->children->key);
-
-	// }
-
-	tempNode = (*root)->children;
 	if (tempNode->children == NULL)
 		printf("No entries\n");
 	else
 	{
 		tempNode = tempNode->children;
-		while (tempNode !=NULL)
+		while (tempNode != NULL)
 		{
 			if (tempNode->key == *key)
 			{
@@ -154,6 +144,7 @@ void printNode(trieNode_t **root,char *key)
 					tempNode = tempNode->neighbor;
 					if (tempNode->key == *key)
 					{
+						printf("%c",tempNode->key);
 						found = 1;
 						key++;
 						break;
