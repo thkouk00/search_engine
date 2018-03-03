@@ -26,6 +26,7 @@ trieNode_t * CreateTrieNode(char key)		//initialize root
 
 void AddNode(trieNode_t **root,char *key)
 {
+	char *tmpstr = key;
 	trieNode_t *tempNode = NULL;
 
 	if (*root == NULL)
@@ -39,16 +40,17 @@ void AddNode(trieNode_t **root,char *key)
 	if (tempNode->children == NULL)		//no children , create first children
 	{
 		tempNode->children = CreateTrieNode(*key);		// roots children
-		//tempNode = tempNode->children;			// first child node
+		tempNode = tempNode->children;			// first child node
 		key++;									// next letter 
+		printf("first %s and %c\n",tmpstr,tempNode->key);
 	}
 	else
 	{
 		if (tempNode->children->key == *key)
 		{
+			tempNode = tempNode->children;
 			key++;
-			//tempNode = tempNode->children;
-			printf("HEE\n");
+			printf("HEE word %s and %c\n",tmpstr,tempNode->key);
 		}
 		else
 		{	
@@ -68,7 +70,7 @@ void AddNode(trieNode_t **root,char *key)
 			{
 				tempNode->neighbor = CreateTrieNode(*key);
 				tempNode = tempNode->neighbor;
-				printf("InSErT %c\n",tempNode->key);
+				//printf("InSErT %c\n",tempNode->key);
 				key++;
 			}
 		}
@@ -77,13 +79,15 @@ void AddNode(trieNode_t **root,char *key)
 	//tempNode = tempNode->children;
 	while (*key != '\0')
 	{
+
 		// tempNode = tempNode->children;
-		printf("ALAL\n");
+		//printf("ALAL\n");
 		if (tempNode->children == NULL)		
 		{
 			tempNode->children = CreateTrieNode(*key);		
 			tempNode = tempNode->children;			
-			key++;									 
+			key++;
+			printf("CHILD %c and key %c %s\n",tempNode->key,*key,tmpstr);									 
 		}
 		else
 		{
@@ -95,17 +99,24 @@ void AddNode(trieNode_t **root,char *key)
 			}
 			else
 			{
-				while (tempNode->neighbor != NULL)
+				if (tempNode->neighbor == NULL)
 				{
+					tempNode->neighbor = CreateTrieNode(*key);
 					tempNode = tempNode->neighbor;
-					if (tempNode->key == *key)
+					key++;
+				}
+				else
+				{
+					while (tempNode->neighbor != NULL)
 					{
-						key++;
-						break;
+						if (tempNode->neighbor->key == *key)
+						{
+							tempNode = tempNode->neighbor;
+							key++;
+							break;
+						}
 					}
 				}
-				tempNode->children = CreateTrieNode(*key);
-				key++;
 			}
 		}
 

@@ -70,11 +70,16 @@ int main(int argc, char *argv[])
 	//create head node for trie
 	trieNode_t *root;
 	CreateTrie(&root);
+	
 	AddNode(&root, "Thanos");
-	// AddNode(&root, "Tram");
 	AddNode(&root, "Mitsos");
+	AddNode(&root, "ELENi");
+	AddNode(&root, "Tram");
+
 	printNode(&root,"Mitsos");
 	printNode(&root,"Thanos");
+	printNode(&root,"Tram");
+	printNode(&root,"ELENi");
 
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);
 	fclose(fp);
