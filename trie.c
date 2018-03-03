@@ -42,7 +42,7 @@ void AddNode(trieNode_t **root,char *key)
 		tempNode->children = CreateTrieNode(*key);		// roots children
 		tempNode = tempNode->children;			// first child node
 		key++;									// next letter 
-		printf("first %s and %c\n",tmpstr,tempNode->key);
+		//printf("first %s and %c\n",tmpstr,tempNode->key);
 	}
 	else
 	{
@@ -50,7 +50,7 @@ void AddNode(trieNode_t **root,char *key)
 		{
 			tempNode = tempNode->children;
 			key++;
-			printf("HEE word %s and %c\n",tmpstr,tempNode->key);
+			//printf("HEE word %s and %c\n",tmpstr,tempNode->key);
 		}
 		else
 		{	
@@ -87,7 +87,7 @@ void AddNode(trieNode_t **root,char *key)
 			tempNode->children = CreateTrieNode(*key);		
 			tempNode = tempNode->children;			
 			key++;
-			printf("CHILD %c and key %c %s\n",tempNode->key,*key,tmpstr);									 
+			//printf("CHILD %c and key %c %s\n",tempNode->key,*key,tmpstr);									 
 		}
 		else
 		{

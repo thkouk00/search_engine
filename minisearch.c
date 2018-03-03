@@ -71,15 +71,36 @@ int main(int argc, char *argv[])
 	trieNode_t *root;
 	CreateTrie(&root);
 	
-	AddNode(&root, "Thanos");
-	AddNode(&root, "Mitsos");
-	AddNode(&root, "ELENi");
-	AddNode(&root, "Tram");
+	for (int i =0;i<2;i++)
+	{
+		//printf("length of line %d : %ld\n",i+1,strlen(arr[i]));
+		str = strtok(arr[i], " ");
+		//printf("str %s\n",str);
+		// str = strtok(NULL, " ");
+		// printf("str %s\n",str);
+		while (str!=NULL)
+		{
+			AddNode(&root,str);
+			//printf("str %s\n",str);
+			str = strtok(NULL, " ");
+		}
+	}
 
-	printNode(&root,"Mitsos");
-	printNode(&root,"Thanos");
-	printNode(&root,"Tram");
-	printNode(&root,"ELENi");
+	printNode(&root,"fun");
+	printNode(&root,"brown");
+	printNode(&root,"leaped");
+	printNode(&root,"for");
+	printNode(&root,"mitsos");
+
+	// AddNode(&root, "Thanos");
+	// AddNode(&root, "Mitsos");
+	// AddNode(&root, "ELENi");
+	// AddNode(&root, "Tram");
+
+	// printNode(&root,"Mitsos");
+	// printNode(&root,"Thanos");
+	// printNode(&root,"Tram");
+	// printNode(&root,"ELENi");
 
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);
 	fclose(fp);
