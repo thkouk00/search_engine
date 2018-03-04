@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
 	printNode(&root,"xvreaei");			//an psaxw gia "Every"
 	printNode(&root,"re");
 	printNode(&root,"YOLO");
+	printNode(&root,"magken");
 	printNode(&root,"gamhtheite");		//na ftiaxv print gia lexeis poy den iparxoun
 
 	

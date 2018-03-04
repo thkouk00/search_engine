@@ -37,50 +37,9 @@ void AddNode(trieNode_t **root,char *key)
 
 	
 	tempNode = *root;
-	if (tempNode->children == NULL)		//no children , create first children
-	{
-		tempNode->children = CreateTrieNode(*key);		// roots children
-		tempNode = tempNode->children;			// first child node
-		key++;									// next letter 
-		//printf("first %s and %c\n",tmpstr,tempNode->key);
-	}
-	else
-	{
-		if (tempNode->children->key == *key)
-		{
-			tempNode = tempNode->children;
-			key++;
-			//printf("HEE word %s and %c\n",tmpstr,tempNode->key);
-		}
-		else
-		{	
-			int flag = 0;
-			tempNode = tempNode->children;
-			while (tempNode->neighbor != NULL)
-			{
-				tempNode = tempNode->neighbor;
-				if (tempNode->key == *key)
-				{
-					flag++;
-					key++;
-					break;
-				}
-			}
-			if (!flag)
-			{
-				tempNode->neighbor = CreateTrieNode(*key);
-				tempNode = tempNode->neighbor;
-				//printf("InSErT %c\n",tempNode->key);
-				key++;
-			}
-		}
-		
-	}
-	//tempNode = tempNode->children;
+	
 	while (*key != '\0')
 	{
-
-		// tempNode = tempNode->children;
 		if (tempNode->children == NULL)		
 		{
 			tempNode->children = CreateTrieNode(*key);	
@@ -126,8 +85,101 @@ void AddNode(trieNode_t **root,char *key)
 				}
 			}
 		}
-
 	}
+
+
+	// if (tempNode->children == NULL)		//no children , create first children
+	// {
+	// 	tempNode->children = CreateTrieNode(*key);		// roots children
+	// 	tempNode = tempNode->children;			// first child node
+	// 	key++;									// next letter 
+	// 	//printf("first %s and %c\n",tmpstr,tempNode->key);
+	// }
+	// else
+	// {
+	// 	if (tempNode->children->key == *key)
+	// 	{
+	// 		tempNode = tempNode->children;
+	// 		key++;
+	// 		//printf("HEE word %s and %c\n",tmpstr,tempNode->key);
+	// 	}
+	// 	else
+	// 	{	
+	// 		int flag = 0;
+	// 		tempNode = tempNode->children;
+	// 		while (tempNode->neighbor != NULL)
+	// 		{
+	// 			tempNode = tempNode->neighbor;
+	// 			if (tempNode->key == *key)
+	// 			{
+	// 				flag++;
+	// 				key++;
+	// 				break;
+	// 			}
+	// 		}
+	// 		if (!flag)
+	// 		{
+	// 			tempNode->neighbor = CreateTrieNode(*key);
+	// 			tempNode = tempNode->neighbor;
+	// 			//printf("InSErT %c\n",tempNode->key);
+	// 			key++;
+	// 		}
+	// 	}
+		
+	// }
+	// //tempNode = tempNode->children;
+	// while (*key != '\0')
+	// {
+
+	// 	// tempNode = tempNode->children;
+	// 	if (tempNode->children == NULL)		
+	// 	{
+	// 		tempNode->children = CreateTrieNode(*key);	
+	// 		tempNode = tempNode->children;			
+	// 		key++;								 
+	// 	}
+	// 	else
+	// 	{
+	// 		tempNode = tempNode->children;	
+	// 		if (tempNode->key == *key)
+	// 		{
+	// 			key++;
+	// 			//tempNode = tempNode->children;
+	// 		}
+	// 		else
+	// 		{
+	// 			if (tempNode->neighbor == NULL)
+	// 			{
+	// 				tempNode->neighbor = CreateTrieNode(*key);
+	// 				tempNode = tempNode->neighbor;
+	// 				key++;
+	// 			}
+	// 			else
+	// 			{
+	// 				int flag = 0;
+	// 				while (tempNode->neighbor != NULL)
+	// 				{
+	// 					tempNode = tempNode->neighbor;
+	// 					if (tempNode->key == *key)
+	// 					{
+	// 						//tempNode = tempNode->neighbor;
+	// 						key++;
+	// 						flag++;
+	// 						break;
+	// 					}
+	// 				}
+	// 				if (!flag)
+	// 				{
+	// 					tempNode->neighbor = CreateTrieNode(*key);
+	// 					tempNode = tempNode->neighbor;
+	// 					key++;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+
+	// }
+
 }
 
 void printNode(trieNode_t **root,char *key)
