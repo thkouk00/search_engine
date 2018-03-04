@@ -29,19 +29,15 @@ int get_info(FILE* fp,long *lines,int *chars,int *max,int *select)
 			fscanf(fp,"%ld",&tmp);
 			if (number != tmp-1)
 			{
-				fprintf(stderr, "Error %ld != %ld\n", number,tmp-1);
+				fprintf(stderr, "Lines not succesive.\n");
 				return 1;
 			}
 			number = tmp;
 		}
-		// if (c == ' ' || c == '\t'){
-		// 	printf("space or tab detected\n");
-		// 	return 1;
-		// }
-		putchar(c);
+
+		//putchar(c);		// print input
 	}
 	*lines += 1;
-	printf("\n");
 	if (c == EOF)
 	{
 		*chars+=1;
@@ -50,7 +46,7 @@ int get_info(FILE* fp,long *lines,int *chars,int *max,int *select)
 			*max = *chars;
 			*select = *lines;
 		}
-		printf("Max %d chars %d lines %ld\n\n",*max,*chars,*lines);
+		printf("\nMax %d chars %d lines %ld\n\n",*max,*chars,*lines);
 	}
 	return 0;
 }

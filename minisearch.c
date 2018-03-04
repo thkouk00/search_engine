@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	
 	if (get_info(fp,&lines,&chars,&max,&select)){
 		fprintf(stderr, "ERROR DETECTED.\n");
-		return 1;
+		exit(1);
 	}
 	
 	char **arr;					
@@ -64,35 +64,37 @@ int main(int argc, char *argv[])
 		fscanf(fp, "%s ", str);
 		//c = getc(fp);		//useless logika
 		fgets(str, max+1, fp);
+		//printf("fgets %s\n",str);
 		arr[i] = malloc(sizeof(char)*strlen(str));
 		strcpy(arr[i], str);
 	}	
 
-	for (int i=0;i<lines;i++)
-		printf("%s\n", arr[i]);
+	for (int i=0;i<lines;i++)		//print input
+		printf("i=%d %s\n", i,arr[i]);
 	
 	//create head node for trie
 	trieNode_t *root;
 	CreateTrie(&root);
 	char *str1;
-	char *delimiter = malloc(sizeof(char));
-	*delimiter = ' ';
+	// char *delimiter = malloc(sizeof(char));
+	// *delimiter = ' ';
 
 	for (int i =0;i<lines;i++)
 	{
 		str = arr[i];
-		str1 = strtok(str, delimiter);
+		// str1 = strtok(str, delimiter);
+		str1 = strtok(str, " ");
 		
 		while (str1!=NULL)
 		{
-			//printf("str %s\n",str1);
+			printf("str %s\n",str1);
 			AddNode(&root,str1);
-			str1 = strtok(NULL, delimiter);
+			// str1 = strtok(NULL, delimiter);
+			str1 = strtok(NULL, " ");
 		}
 	}
 
-
-	
+	printNode(&root,"What-a-nice");
 	printNode(&root,"poy");
 	printNode(&root,"grammes");
 	printNode(&root,"Everybody");		//na rotiso an prpei na emfanizei apotelesma
@@ -101,19 +103,6 @@ int main(int argc, char *argv[])
 	printNode(&root,"YOLO");
 	printNode(&root,"magken");
 	printNode(&root,"gamhtheite");		//na ftiaxv print gia lexeis poy den iparxoun
-
-	
-	// AddNode(&root, "What");
-	// AddNode(&root, "Where");
-	// AddNode(&root, "Which");
-	// AddNode(&root, "Whom");
-	// AddNode(&root, "Whicher");
-	// printNode(&root, "Which");
-	// printNode(&root, "Whom");
-	// printNode(&root, "Where");
-	// printNode(&root, "What");
-	// printNode(&root, "Whicher");
-	//AddNode(&root, "Whicher");
 
 
 	printf("\nLines %ld and max %d and select %d\n",lines,max,select);
