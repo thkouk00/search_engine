@@ -97,7 +97,7 @@ void AddNode(trieNode_t **root,char *key)
 		key++;
 	}
 	// printf("END %c for %s\n",tempNode->key,tmpstr);
-	// tempNode->endofword = 1;
+	tempNode->endofword = 1;
 }
 
 void printNode(trieNode_t **root,char *key)
@@ -118,7 +118,8 @@ void printNode(trieNode_t **root,char *key)
 	}
 	
 	tempNode = *root;
-	for (int i=0;i<strlen(str);i++)
+	int i;
+	for (i=0;i<strlen(str);i++)
 	{
 		while (tempNode->children!=NULL)
 		{
@@ -146,9 +147,16 @@ void printNode(trieNode_t **root,char *key)
 			}
 		}
 		key++;
+		if (tempNode->endofword && i<strlen(str)-1)
+		{
+			printf("%s not found\n",str);
+			finish = 0;
+			break;
+		}
 	}
 	buffer[strlen(str)] = '\0';
-	printf("PRINT : %s\n",buffer);
+	if (finish)
+		printf("PRINT : %s\n",buffer);
 	free(buffer);
 }
 
