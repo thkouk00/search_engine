@@ -1,4 +1,7 @@
 #ifndef _TRIEH_
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "list.h"
 
 typedef struct trie{
@@ -6,6 +9,7 @@ typedef struct trie{
 	struct trie* children;
 	struct trie* neighbor;
 	listNode* plist;
+	short endofword;
 }trieNode_t;
 
 void CreateTrie(trieNode_t **);

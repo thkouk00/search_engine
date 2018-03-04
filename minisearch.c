@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 		
 		while (str1!=NULL)
 		{
-			printf("str %s\n",str1);
+			//printf("str %s\n",str1);
 			AddNode(&root,str1);
 			str1 = strtok(NULL, delimiter);
 		}
@@ -95,9 +95,10 @@ int main(int argc, char *argv[])
 	
 	printNode(&root,"poy");
 	printNode(&root,"grammes");
-	printNode(&root,"Everybody");
-	printNode(&root,"xvreaei");
+	printNode(&root,"Everybody");		//na rotiso an prpei na emfanizei apotelesma
+	printNode(&root,"xvreaei");			//an psaxw gia "Every"
 	printNode(&root,"re");
+	printNode(&root,"YOLO");
 	printNode(&root,"gamhtheite");		//na ftiaxv print gia lexeis poy den iparxoun
 
 	

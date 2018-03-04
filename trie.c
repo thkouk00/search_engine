@@ -132,8 +132,10 @@ void AddNode(trieNode_t **root,char *key)
 
 void printNode(trieNode_t **root,char *key)
 {
-	printf("PRINT:");
-	int found = 0;
+	printf("\nPRINT: ");
+	int found = 0 , finish = 1;
+	char *str = key;
+	char *buffer = malloc(sizeof(char)*strlen(str));
 	trieNode_t *tempNode = NULL;
 
 	if (*root == NULL)
@@ -143,41 +145,47 @@ void printNode(trieNode_t **root,char *key)
 	}
 	
 	tempNode = *root;
-	if (tempNode->children == NULL)
-		printf("No entries\n");
-	else
+	
+	for (int i=0;i<strlen(str);i++)
 	{
-		tempNode = tempNode->children;
-		while (tempNode != NULL)
+		while (tempNode->children!=NULL)
 		{
+			tempNode = tempNode->children;
 			if (tempNode->key == *key)
 			{
-				printf("%c", tempNode->key);
+				buffer[i] = tempNode->key;
 				key++;
+				break;
 			}
 			else
 			{
+				found = 0;
 				while (tempNode->neighbor != NULL)
 				{
 					tempNode = tempNode->neighbor;
 					if (tempNode->key == *key)
 					{
-						printf("%c",tempNode->key);
+						buffer[i] = tempNode->key;
 						found = 1;
 						key++;
 						break;
 					}
 				}
-				// if ((tempNode->neighbor == NULL) && !found)
-				// {
-				// 	printf("%s not found\n",key);
-				// 	exit(1);
-				// }
+				if (found)
+					break;
 			}
-			tempNode = tempNode->children;
+		}
+		if (*key != '\0' && i+1>=strlen(str))
+		{
+			finish = 0;
+			break;
 		}
 	}
-	printf("\n");
+	if (finish)
+		printf("%s found\n",buffer);
+	else
+		printf("%s not found\n",str);
+	free(buffer);
 }
 
 
