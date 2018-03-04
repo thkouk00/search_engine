@@ -5,12 +5,13 @@
 
 typedef struct list
 {
-	long id;
+	int id;
 	int number_of_times;
 	struct list *next;
 }listNode;
 
-void insert(listNode **,long , int);
+listNode *CreateList(listNode **);
+void insert(listNode **,int);
 void print(listNode **);
 void length(listNode **);
 

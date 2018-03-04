@@ -1,6 +1,6 @@
 #include "get_info.h"
 
-int get_info(FILE* fp,long *lines,int *chars,int *max,int *select)
+int get_info(FILE* fp,int *lines,int *chars,int *max,int *select)
 {
 
 	int c;
@@ -46,7 +46,7 @@ int get_info(FILE* fp,long *lines,int *chars,int *max,int *select)
 			*max = *chars;
 			*select = *lines;
 		}
-		printf("\nMax %d chars %d lines %ld\n\n",*max,*chars,*lines);
+		printf("\nMax %d chars %d lines %d\n\n",*max,*chars,*lines);
 	}
 	return 0;
 }

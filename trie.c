@@ -25,7 +25,7 @@ trieNode_t * CreateTrieNode(char key)		//initialize root
 }
 
 
-void AddNode(trieNode_t **root,char *key)
+void AddNode(trieNode_t **root,char *key,int id)
 {
 	char *tmpstr = key;
 	char *tmp1 ;
@@ -91,13 +91,35 @@ void AddNode(trieNode_t **root,char *key)
 		tmp1++;
 		if (*tmp1 == '\0')
 		{	
-			//printf("ADD %c in %s and eow %d\n",tempNode->key,tmpstr,tempNode->endofword);
 			tempNode->endofword = 1;
+			break;
 		}
 		key++;
 	}
-	// printf("END %c for %s\n",tempNode->key,tmpstr);
 	tempNode->endofword = 1;
+	printf("%s :\n",tmpstr);
+	//printf("%s from id: %d and length %ld\n", tmpstr,id,strlen(tmpstr));
+	listNode *cur = tempNode->plist; 
+	if (tempNode->plist == NULL)
+	{
+		insert(&(tempNode->plist),id);
+		print(&(tempNode->plist));
+	}
+	else
+	{
+		insert(&cur,id);
+		print(&cur);
+		//printf("MPIKA WHILE line %d\n",id);
+		// while (cur->next != NULL)
+		// {
+		// 	//printf("%s :\n",tmpstr);
+		// 	insert(&cur,id);
+		// 	print(&cur);
+		// 	cur = cur->next;
+		// 	//printf("NAI\n");
+		// }
+		//printf("BGIKA\n");
+	}
 }
 
 void printNode(trieNode_t **root,char *key)

@@ -1,19 +1,42 @@
 #include "list.h"
 
-void insert(listNode **head,long id,int number_of_times)
+listNode *CreateList(listNode **head)
 {
-	listNode *n = (listNode*)malloc(sizeof(struct list));
-	n->id = id;
-	n->number_of_times = number_of_times;
-	n->next = NULL;
-	listNode *cur = *head;
-	if (*head == NULL){
-		*head = n;
-	}
-	else
+	*head = (listNode*)malloc(sizeof(struct list));
+	(*head)->id = -1;
+	(*head)->number_of_times = 0;
+	(*head)->next = NULL;
+	return *head;
+}
+
+void insert(listNode **head,int id)
+{
+	if (*head == NULL)
 	{
-		while (cur->next !=NULL)
-			cur = cur->next;
+		*head = CreateList(head);
+		//printf("ROOT CREATED\n");
+	}
+	listNode *cur = *head;
+	int flag = 0;
+	while (cur->next !=NULL)
+	{
+		//printf("HERE\n");
+		cur = cur->next;
+		if (cur->id == id)
+		{
+			//printf("ID IDIO\n");
+			cur->number_of_times++;
+			flag = 1;
+			break;
+		}
+	}
+	if (!flag)
+	{
+		//printf("MPIKA list\n");
+		listNode *n = (listNode*)malloc(sizeof(struct list));
+		n->id = id;
+		n->number_of_times = 1;
+		n->next = NULL;
 		cur->next = n;
 	}
 }
@@ -21,14 +44,17 @@ void insert(listNode **head,long id,int number_of_times)
 void print(listNode **head)
 {
 	listNode *cur = *head;
-	if (cur == NULL)
+	
+	if (cur->next == NULL)
 		printf("Empty list\n");
 	else
 	{
-		while (cur !=NULL)
+		// printf("---HEREE\n");
+		while (cur->next !=NULL)
 		{
-			printf("id %ld and number_of_times %d\n",cur->id,cur->number_of_times);
 			cur = cur->next;
+			printf("id %d and number_of_times %d\n\n",cur->id,cur->number_of_times);
+			//cur = cur->next;
 		}
 	}
 }

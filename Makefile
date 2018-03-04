@@ -1,2 +1,2 @@
 all:
-	gcc -o test minisearch.c get_info.c trie.c
+	gcc -o test minisearch.c get_info.c trie.c list.c

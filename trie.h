@@ -14,7 +14,7 @@ typedef struct trie{
 
 void CreateTrie(trieNode_t **);
 trieNode_t * CreateTrieNode(char);
-void AddNode(trieNode_t **,char*);
+void AddNode(trieNode_t **,char*,int);
 void printNode(trieNode_t **root,char *key);
 void length_trie();
 
