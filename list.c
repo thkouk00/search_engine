@@ -14,17 +14,14 @@ void insert(listNode **head,int id)
 	if (*head == NULL)
 	{
 		*head = CreateList(head);
-		//printf("ROOT CREATED\n");
 	}
 	listNode *cur = *head;
 	int flag = 0;
 	while (cur->next !=NULL)
 	{
-		//printf("HERE\n");
 		cur = cur->next;
 		if (cur->id == id)
 		{
-			//printf("ID IDIO\n");
 			cur->number_of_times++;
 			flag = 1;
 			break;
@@ -39,6 +36,7 @@ void insert(listNode **head,int id)
 		n->next = NULL;
 		cur->next = n;
 	}
+	(*head)->number_of_times++;
 }
 
 void print(listNode **head)
@@ -49,7 +47,7 @@ void print(listNode **head)
 		printf("Empty list\n");
 	else
 	{
-		// printf("---HEREE\n");
+		printf("Total value %d\n",cur->number_of_times);
 		while (cur->next !=NULL)
 		{
 			cur = cur->next;

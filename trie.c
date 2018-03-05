@@ -96,30 +96,14 @@ void AddNode(trieNode_t **root,char *key,int id)
 		}
 		key++;
 	}
+	printf ("WORD %c.\n",*key);
 	tempNode->endofword = 1;
-	printf("%s :\n",tmpstr);
-	//printf("%s from id: %d and length %ld\n", tmpstr,id,strlen(tmpstr));
-	listNode *cur = tempNode->plist; 
-	if (tempNode->plist == NULL)
-	{
-		insert(&(tempNode->plist),id);
-		print(&(tempNode->plist));
-	}
-	else
-	{
-		insert(&cur,id);
-		print(&cur);
-		//printf("MPIKA WHILE line %d\n",id);
-		// while (cur->next != NULL)
-		// {
-		// 	//printf("%s :\n",tmpstr);
-		// 	insert(&cur,id);
-		// 	print(&cur);
-		// 	cur = cur->next;
-		// 	//printf("NAI\n");
-		// }
-		//printf("BGIKA\n");
-	}
+	//printf("%s :\n",tmpstr);
+	
+	listNode *cur = tempNode->plist;
+	insert(&(tempNode->plist),id);
+	print(&(tempNode->plist));		//print plist
+	
 }
 
 void printNode(trieNode_t **root,char *key)
@@ -169,14 +153,25 @@ void printNode(trieNode_t **root,char *key)
 			}
 		}
 		key++;
-		if (tempNode->endofword && i<strlen(str)-1)
-		{
-			printf("%s not found\n",str);
-			finish = 0;
-			break;
-		}
+
+		// if (tempNode->endofword && i==strlen(str)-1 && tempNode->key != *key)
+		// {
+		// 	printf("eow %d and %c.%s\n",tempNode->endofword,tempNode->key,str);
+		// 	printf("%s not found\n",str);
+		// 	finish = 0;
+		// 	break;
+		// }
 	}
-	buffer[strlen(str)] = '\0';
+	buffer[strlen(str)] = '\0'; 	//lathos na to ftiaxv
+	if (!strcmp(buffer, str) && tempNode->endofword)
+	{
+		finish = 1;
+		//printf("%s not found\n",str);
+	}
+	else{
+		finish = 0;
+		printf("%s not found\n",str);
+	}
 	if (finish)
 		printf("PRINT : %s\n",buffer);
 	free(buffer);

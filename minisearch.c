@@ -62,9 +62,7 @@ int main(int argc, char *argv[])
 	for (int i=0;i<lines;i++)						//store sentences in array
 	{
 		fscanf(fp, "%s ", str);
-		//c = getc(fp);		//useless logika
 		fgets(str, max, fp);
-		//printf("fgets %s\n",str);
 		arr[i] = malloc(sizeof(char)*strlen(str));
 		strcpy(arr[i], str);
 	}	
@@ -76,22 +74,17 @@ int main(int argc, char *argv[])
 	trieNode_t *root;
 	CreateTrie(&root);
 	char *str1;
-	// char *delimiter = malloc(sizeof(char));
-	// *delimiter = ' ';
 	char delimiter[] = " \t\n"; 
 
 	for (int i =0;i<lines;i++)
 	{
 		str = arr[i];
 		str1 = strtok(str, delimiter);
-		//str1 = strtok(str, " ");
 		
 		while (str1!=NULL)
 		{
-			//printf("str %s and length %ld\n",str1,strlen(str1));
 			AddNode(&root,str1,i);
 			str1 = strtok(NULL, delimiter);
-			//str1 = strtok(NULL, " ");
 		}
 	}
 
@@ -105,8 +98,31 @@ int main(int argc, char *argv[])
 	printNode(&root,"magken");
 	printNode(&root,"gamhtheite");		//na ftiaxv print gia lexeis poy den iparxoun
 
+	// queries from user
+	char answer[20];
+	//puts("Give query:");
+	//fgets(answer,20,stdin);
+	// while (1)
+	// {
+	// 	puts("Give query:");
+	// 	fgets(answer,20,stdin);
+	// 	printf ("answer is %s",answer);
+	// 	if (!strncmp(answer, "/search",strlen("/search")))
+	// 		printf("You asked for search\n");
+	// 	else if (!strncmp(answer, "/df",strlen("/df")))
+	// 		printf("You asked for document frequency\n");
+	// 	else if (!strncmp(answer, "/tf",strlen("/tf")))
+	// 		printf("You asked for term frequency\n");
+	// 	else if (!strncmp(answer, "/exit",strlen("/exit")))
+	// 	{
+	// 		printf("Exit program\n");
+	// 		break;
+	// 	}
 
-	printf("\nLines %d and max %d and select %d\n",lines,max,select);
+	// }
+	// printf("answer-> %s",answer);
+
+
 	fclose(fp);
 	//na kanw ta free
 
