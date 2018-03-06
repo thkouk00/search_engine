@@ -47,11 +47,11 @@ void print(listNode **head)
 		printf("Empty list\n");
 	else
 	{
-		printf("Total value %d\n",cur->number_of_times);
+		//printf("Total value %d\n",cur->number_of_times);
 		while (cur->next !=NULL)
 		{
 			cur = cur->next;
-			printf("id %d and number_of_times %d\n\n",cur->id,cur->number_of_times);
+			//printf("id %d and number_of_times %d\n\n",cur->id,cur->number_of_times);
 			//cur = cur->next;
 		}
 	}

@@ -96,7 +96,7 @@ void AddNode(trieNode_t **root,char *key,int id)
 		}
 		key++;
 	}
-	printf ("WORD %c.\n",*key);
+	//printf ("WORD %c.\n",*key);
 	tempNode->endofword = 1;
 	//printf("%s :\n",tmpstr);
 	
@@ -178,7 +178,19 @@ void printNode(trieNode_t **root,char *key)
 }
 
 
-void length_trie()
+void FreeTrie(trieNode_t **root)
 {
-
+	trieNode_t *tempNode = NULL;
+	trieNode_t *curN, *curC;
+	tempNode = *root;
+	while (tempNode->children != NULL)
+	{
+		tempNode = tempNode->children;
+		while (tempNode->neighbor != NULL)
+		{
+			curN = tempNode;
+			tempNode = tempNode->neighbor;
+		}
+		
+	}	
 }
