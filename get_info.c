@@ -8,7 +8,6 @@ int get_info(FILE* fp,int *lines,int *chars,int *max,int *select)
 	long tmp = 0;
 
 	fscanf(fp, " %ld", &number);
-	printf("number %ld\n", number);
 	if (number != 0){
 		fprintf(stderr, "Must start from zero!\n");
 		return 1;
@@ -27,7 +26,6 @@ int get_info(FILE* fp,int *lines,int *chars,int *max,int *select)
 			*chars = 0;
 			
 			fscanf(fp,"%ld",&tmp);
-			printf("number %ld\n",tmp);
 			if (number != tmp-1)
 			{
 				fprintf(stderr, "Lines not succesive.\n");

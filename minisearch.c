@@ -1,8 +1,15 @@
+//#ifndef _MINISEARCH_
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "get_info.h"
 #include "trie.h"
+#include "funcs.h"
+
+
+
+#define SIZE 6
 
 void Usage(char *prog_name)			/* Usage */
 {
@@ -63,6 +70,9 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Malloc failed.\n");
 	
 	fseek(fp, 0, SEEK_SET);
+
+	clock_t begin1 = clock();
+
 	for (i=0;i<lines;i++)						//store sentences in array
 	{
 		fscanf(fp, "%s ",str);
@@ -74,83 +84,129 @@ int main(int argc, char *argv[])
 		//printf("i=%d and word %s\n",i,arr[i]);
 	}	
 
+	fclose(fp);
 
-	// for (i=0;i<lines;i++)		//print input
-	// 	printf("i=%d %s\n", i,arr[i]);
+	clock_t end1 = clock();
+	double time_spent1 = (double)(end1-begin1) / CLOCKS_PER_SEC;
+	printf("TIME1 %lf\n",time_spent1);
 	
+	int *D = (int*)malloc(sizeof(int)*lines);
+	for (i=0;i<lines;i++)
+		D[i] = 0;
+
 	//create head node for trie
-	// trieNode_t *root;
-	// CreateTrie(&root);
-	// char *str1;
-	// char delimiter[] = " \t\n"; 
+	trieNode_t *root;
+	CreateTrie(&root);
+	char *str1;
+	char delimiter[] = " \t\n"; 
 
-	// for (i =0;i<lines;i++)
-	// {
-	// 	strncpy(str, arr[i], strlen(arr[i])+1);
-	// 	// printf("%s\n", str);
-	// 	str1 = strtok(str, delimiter);
-	// 	while (str1!=NULL)
-	// 	{
-	// 		AddNode(&root,str1,i);
-	// 		str1 = strtok(NULL, delimiter);
-	// 	}
-	// }
+	clock_t begin = clock();
+
+	for (i =0;i<lines;i++)
+	{
+		strncpy(str, arr[i], strlen(arr[i])+1);
+		str1 = strtok(str, delimiter);
+		while (str1!=NULL)
+		{
+			D[i]++;						//how many words in every sentence
+			AddNode(&root,str1,i);
+			str1 = strtok(NULL, delimiter);
+		}
+	}
 	
-	// printNode(&root,"BIRALAH");
+	clock_t end = clock();
+	double time_spent = (double)(end-begin) / CLOCKS_PER_SEC;
+	printf("TIME %lf\n",time_spent);
+	
+	printNode(&root,"file");
+	printNode(&root,"Ela");
+	printNode(&root,"Th");
 	// printNode(&root,"tsiritsantoyles");
 	// printNode(&root,"-What-a-nice");
 	// printNode(&root,"poy");
-	// printNode(&root,"grammes");
-	// printNode(&root,"Everybody");		//na rotiso an prpei na emfanizei apotelesma
-	// printNode(&root,"xvreaei");			//an psaxw gia "Every"
-	// printNode(&root,"re");
-	// printNode(&root,"YOLO");
-	// printNode(&root,"magken");
-	// printNode(&root,"gamhtheite");		//na ftiaxv print gia lexeis poy den iparxoun
-
+	// printNode(&root,"Christian");
+	
 	// // queries from user
-	// int size = 10;
-	char *answer;
+	char *answer = malloc(sizeof(char)*SIZE);
+	char *buf;
+	char tmp;
 	
-	// puts("Give query:");
-	// scanf("%ms",&answer);
-	// printf("%s and len %ld\n",answer,strlen(answer));
-	// free(answer);
-	
-	while (1)
+	int avgdl = 0;		//for search
+	for (i=0;i<lines;i++)
 	{
-		int i = 0;
-		puts("Give query:");
-		scanf("%ms",&answer);
-		//while (scanf("%ms %[^\n]s",&answer))
-		//{
-			printf("i = %d and %s\n",i,answer);
-			free(answer);
-		// }
-	}	
-	
-	// 	//printf ("answer is %s",answer);
-	// 	// if (!strncmp(answer, "/search",strlen("/search")))
-	// 	// 	printf("You asked for search\n");
-	// 	// else if (!strncmp(answer, "/df",strlen("/df")))
-	// 	// 	printf("You asked for document frequency\n");
-	// 	// else if (!strncmp(answer, "/tf",strlen("/tf")))
-	// 	// 	printf("You asked for term frequency\n");
-	// 	// else if (!strncmp(answer, "/exit",strlen("/exit")))
-	// 	// {
-	// 	// 	printf("Exit program\n");
-	// 	// 	break;
-	// 	// }
+		// printf("D[%d]=%d\n",i,D[i]);
+		avgdl += D[i];
+	}
+	avgdl = avgdl/lines;
+	// printf("avgdl %d\n",avgdl);
+	// while(1)
+	// {
+		int y = 0;
+		int new_size = SIZE;
+		double result;
+		i = 0;
+		puts("Give query: ");
+		scanf("%ms",&buf);
+		
+		if (!strncmp(buf, "/search", strlen("/search")))
+		{
+			printf("%s\n",buf);	
+			while ((tmp =getchar())!='\n')
+			{	
+				if (tmp == ' ')
+				{
+					i++;
+					if (i==10)
+						break;
+				}
 
-	// }
-	// printf("answer-> %s",answer);
+				if (y == new_size-1)
+				{
+					new_size = new_size+5;
+					answer = realloc(answer, new_size);
+				}
+				answer[y] = tmp;
+				y++;
+				
+			}
+			i++;
+			answer[y] = '\0';
+			result = 0;
+			printf("\n i = %d and %s and y %d.\n",i,answer,y);
+			str1 = strtok(answer, delimiter);
+			while (str1!=NULL)
+			{
+				result = score(str1, D, avgdl, lines, &root);
+				printf("RESULT for %s einai %lf\n", str1,result);
+				str1 = strtok(NULL, delimiter);
+			}
+		}
+		else if (!strncmp(buf, "/df", strlen("/df")))
+		{
+			printf("DF\n");
+			df(&root);
+		}
+		else if (!strncmp(buf, "/tf", strlen("/tf")))
+		{
 
-	fclose(fp);
+		}
+		else if (!strncmp(buf, "/exit", strlen("/exit")))
+		{
+			printf("Exit\n");
+			// break;
+		}
+
+		free(buf);
+		free(answer);
+	//}
 
 	for (int i=0;i<lines;i++)
 		free(arr[i]);
 	free(arr);
+	free(D);
 	free(str);
+
+	FreeTrie(&root);
 	//na kanw ta free
 
 	return 0;
