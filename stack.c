@@ -7,7 +7,7 @@ void push(stackNode_t **head, trieNode_t *Tnode)
 		*head = (stackNode_t*)malloc(sizeof(struct stack));
 		(*head)->Tnode = NULL;
 		(*head)->next = NULL;
-		// printf("Head Created\n");
+		printf("Head Created %p\n",(*head));
 	}
 	stackNode_t *tempNode;
 	stackNode_t *cur;

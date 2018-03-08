@@ -183,8 +183,28 @@ int main(int argc, char *argv[])
 		}
 		else if (!strncmp(buf, "/df", strlen("/df")))
 		{
+			// while ((tmp =getchar())!='\n')
+			// {	
+			// 	if (tmp == ' ')
+			// 	{
+			// 		i++;
+			// 		if (i==10)
+			// 			break;
+			// 	}
+
+			// 	if (y == new_size-1)
+			// 	{
+			// 		new_size = new_size+5;
+			// 		answer = realloc(answer, new_size);
+			// 	}
+			// 	answer[y] = tmp;
+			// 	y++;
+			// 	printf("MPIKA\n");
+			// }
+			//i++;
 			printf("DF\n");
 			df(&root);
+			
 		}
 		else if (!strncmp(buf, "/tf", strlen("/tf")))
 		{

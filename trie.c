@@ -269,52 +269,43 @@ void df(trieNode_t **root)
 	listNode *plist = NULL;
 	int times;
 	tempNode = *root;
-
-	while (tempNode->children)
+	if (tempNode->children == NULL)
+		printf("NO DATA\n");
+	else
 	{
 		tempNode = tempNode->children;
-		push(&head,tempNode);
-		// printf("Push %c\n",tempNode->key);
-	}
-	while (head != NULL)
-	{
-		tempNode = pop(&head);
-		if (tempNode == NULL)
-			break;
-		if(tempNode->neighbor != NULL)
+		while (tempNode)
 		{
-			push(&head, tempNode);
-			// printf("Push %c\n",tempNode->key);
-			cur = tempNode;
-			tempNode = tempNode->neighbor;
-			cur->neighbor = NULL;
-			push(&head,tempNode);
-			// printf("Push %c\n",tempNode->key);
-			while (tempNode->children)
+			// tempNode = tempNode->children;
+			if (tempNode->neighbor)
 			{
-				tempNode = tempNode->children;
-				push(&head,tempNode);
-				// printf("Push %c\n",tempNode->key);
+				push(&head, tempNode->neighbor);
+				// printf("PUSH %c\n",tempNode->neighbor->key);
 			}
-		}
-		else
-		{	
-			plist = tempNode->plist;
-			if (plist)
+			if (tempNode->plist)
 			{
+				// printf("MPIKA %c\n",tempNode->key);
 				times = 0;
+				plist = tempNode->plist;
 				while (plist->next)
 				{
 					plist = plist->next;
 					times++;
 				}
 				printf("%s %d\n",tempNode->plist->name,times);
-			}	
-
+			}
+			if (tempNode->children == NULL)
+			{
+				tempNode = pop(&head);
+				if (tempNode == NULL)
+					break;
+			}
+			else
+				tempNode = tempNode->children;
 		}
 	}
+
 	free(head);
-	// free(*root);
 }
 
 
@@ -363,6 +354,7 @@ void FreeTrie(trieNode_t **root)
 			free(tempNode);
 		}
 	}
+	printf("FREETRIE %p and %p\n",head,head->next);
 	free(head);
 	free(*root);
 }

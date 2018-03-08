@@ -77,6 +77,7 @@ void FreeList(listNode **head)
 {
 	listNode *cur = *head;
 	listNode *temp;
+	free((*head)->name);
 	while (cur->next != NULL)
 	{
 		temp = cur->next;
