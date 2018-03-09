@@ -235,7 +235,7 @@ listNode *find_word(trieNode_t **root,char *key)
 		}
 		key++;
 	}
-	buffer[strlen(str)] = '\0'; 	//lathos na to ftiaxv
+	buffer[i] = '\0'; 	//lathos na to ftiaxv
 	if (!strcmp(buffer, str) && tempNode->endofword)
 	{
 		if (tempNode->plist == NULL)

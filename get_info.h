@@ -4,6 +4,6 @@
 #include <string.h>
 #endif
 
-int get_info(FILE* ,int *,int *,int *,int *);
+int get_info(FILE* ,int *,int *,int *,int *,int *);
 
 /* initial check for requirements and computations for lines and characters*/

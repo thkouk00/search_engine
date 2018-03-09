@@ -52,9 +52,10 @@ int main(int argc, char *argv[])
 	int lines = 0;					//total lines
 	int chars = 0;					//chars per line
 	int max = 0;					//max number of chars in line
+	int max_words = 0;				// max length of word
 	int select = 0;					//na to svisc meta axristo
 	
-	if (get_info(fp,&lines,&chars,&max,&select)){
+	if (get_info(fp,&lines,&chars,&max,&max_words,&select)){
 		fprintf(stderr, "ERROR DETECTED.\n");
 		exit(1);
 	}
@@ -127,9 +128,13 @@ int main(int argc, char *argv[])
 	// printNode(&root,"Christian");
 	
 	// // queries from user
-	char *answer = malloc(sizeof(char)*SIZE);
+	// char *answer = malloc(sizeof(char)*SIZE);
+	
+	char *answer = malloc(sizeof(char)*(max_words+1));
+	// char *answer;
 	char *buf;
 	char tmp;
+	int found;
 	
 	int avgdl = 0;		//for search
 	for (i=0;i<lines;i++)
@@ -139,11 +144,12 @@ int main(int argc, char *argv[])
 	}
 	avgdl = avgdl/lines;
 	// printf("avgdl %d\n",avgdl);
-	// while(1)
-	// {
-		int y = 0;
-		int new_size = SIZE;
-		double result;
+	int y = 0;
+	int new_size = SIZE;
+	double result;
+	while(1)
+	{
+		y = 0;
 		i = 0;
 		puts("Give query: ");
 		scanf("%ms",&buf);
@@ -160,11 +166,11 @@ int main(int argc, char *argv[])
 						break;
 				}
 
-				if (y == new_size-1)
-				{
-					new_size = new_size+5;
-					answer = realloc(answer, new_size);
-				}
+				// if (y == new_size-1)
+				// {
+				// 	new_size = new_size+5;
+				// 	answer = realloc(answer, new_size);
+				// }
 				answer[y] = tmp;
 				y++;
 				
@@ -180,31 +186,36 @@ int main(int argc, char *argv[])
 				printf("RESULT for %s einai %lf\n", str1,result);
 				str1 = strtok(NULL, delimiter);
 			}
+			free(buf);
+			free(answer);
 		}
 		else if (!strncmp(buf, "/df", strlen("/df")))
 		{
-			// while ((tmp =getchar())!='\n')
-			// {	
-			// 	if (tmp == ' ')
-			// 	{
-			// 		i++;
-			// 		if (i==10)
-			// 			break;
-			// 	}
-
-			// 	if (y == new_size-1)
-			// 	{
-			// 		new_size = new_size+5;
-			// 		answer = realloc(answer, new_size);
-			// 	}
-			// 	answer[y] = tmp;
-			// 	y++;
-			// 	printf("MPIKA\n");
-			// }
-			//i++;
-			printf("DF\n");
-			df(&root);
-			
+			listNode *list = NULL;
+			int times;
+			// memset(answer, '\0', max_words+1);
+			fgets(answer, max+1, stdin);
+			if (answer[0] == '\n')
+				df(&root);
+			else
+			{
+				str1 = strtok(answer, delimiter);
+				printf("NAME .%s and length %ld and .%s.\n", answer,strlen(answer),str1);
+				list = find_word(&root, str1);
+				if (list == NULL)
+					printf("%s not found!\n", str1);
+				else
+				{	
+					times = 0;
+					while (list->next)
+					{
+						list = list->next;
+						times++;
+					}
+					printf("%s %d\n",str1,times);
+				}
+			}
+			free(buf);
 		}
 		else if (!strncmp(buf, "/tf", strlen("/tf")))
 		{
@@ -213,13 +224,14 @@ int main(int argc, char *argv[])
 		else if (!strncmp(buf, "/exit", strlen("/exit")))
 		{
 			printf("Exit\n");
-			// break;
+			free(buf);
+			// free(answer);
+			break;
 		}
-
-		free(buf);
-		free(answer);
-	//}
-
+		// free(buf);
+		// free(answer);
+	}
+	free(answer);
 	for (int i=0;i<lines;i++)
 		free(arr[i]);
 	free(arr);
