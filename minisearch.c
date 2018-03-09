@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
 			else
 			{
 				str1 = strtok(answer, delimiter);
-				printf("NAME .%s and length %ld and .%s.\n", answer,strlen(answer),str1);
+				// printf("NAME .%s and length %ld and .%s.\n", answer,strlen(answer),str1);
 				list = find_word(&root, str1);
 				if (list == NULL)
 					printf("%s not found!\n", str1);
@@ -219,7 +219,28 @@ int main(int argc, char *argv[])
 		}
 		else if (!strncmp(buf, "/tf", strlen("/tf")))
 		{
-
+			listNode *list = NULL;
+			int str2;
+			fgets(answer, max+1, stdin);
+			str2 = (int)atoi(strtok(answer, delimiter));
+			str1 = strtok(NULL, delimiter);
+			// printf("id .%d name .%s\n",str2,str1);
+			list = find_word(&root, str1);
+			if (list == NULL)
+				printf("%s not found!\n", str1);
+			else
+			{	
+				while (list->next)
+				{
+					list = list->next;
+					if (list->id == str2)
+					{
+						printf("%s %d\n", str1,list->number_of_times);
+						break;
+					}	
+				}
+			}
+			free(buf);
 		}
 		else if (!strncmp(buf, "/exit", strlen("/exit")))
 		{
