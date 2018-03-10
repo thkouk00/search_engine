@@ -5,7 +5,7 @@
 #include "trie.h"
 #include "list.h"
 
-double score(char*, int*, int, int , trieNode_t **);
+void score(char**, int,int*, int, int , trieNode_t **);
 void df();
 void tf();
 

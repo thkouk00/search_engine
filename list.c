@@ -77,14 +77,78 @@ void FreeList(listNode **head)
 {
 	listNode *cur = *head;
 	listNode *temp;
-	free((*head)->name);
-	while (cur->next != NULL)
+	if (*head != NULL)
 	{
-		temp = cur->next;
-		cur->next = temp->next;
-		// printf("LIST id %d number %d\n",temp->id,temp->number_of_times);
-		free(temp);
-		if (cur == NULL)
-			break;
+		free((*head)->name);
+		while (cur->next != NULL)
+		{
+			temp = cur->next;
+			cur->next = temp->next;
+			// printf("LIST id %d number %d\n",temp->id,temp->number_of_times);
+			free(temp);
+			if (cur == NULL)
+				break;
+		}
+	}
+}
+
+
+//for search 
+
+void insert_search(list_t **head,int number_of_times,int word_from)
+{
+	if (*head == NULL)
+	{
+		*head = (list_t*)malloc(sizeof(struct list_search));
+		(*head)->number_of_times = -1;
+		(*head)->word_from = -1;
+		(*head)->next = NULL;
+	}
+	list_t *cur = *head;
+
+	//printf("MPIKA list\n");
+	list_t *n = (list_t*)malloc(sizeof(struct list_search));
+	n->number_of_times = number_of_times;
+	n->word_from = word_from;
+	n->next = cur->next;
+	cur->next = n;
+}
+
+void print_search(list_t **head)
+{
+	list_t *cur = *head;
+	printf("PLIST NAME %d\n",cur->word_from);
+	if (cur->next == NULL)
+		printf("Empty list\n");
+	else
+	{
+		//printf("Total value %d\n",cur->number_of_times);
+		while (cur->next !=NULL)
+		{
+			cur = cur->next;
+			printf("number_of_times %d\n\n",cur->number_of_times);
+			//cur = cur->next;
+		}
+	}
+}
+
+void FreeList_search(list_t **head)
+{
+	list_t *cur = *head;
+	list_t *temp;
+	if (*head != NULL)
+	{
+		while (cur->next != NULL)
+		{
+			temp = cur->next;
+			cur->next = temp->next;
+			// printf("LIST id %d number %d\n",temp->id,temp->number_of_times);
+			free(temp);
+			if (cur == NULL)	//mallon axristo
+			{
+				free(cur);
+				break;
+			}
+		}
 	}
 }

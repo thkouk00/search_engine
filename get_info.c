@@ -25,7 +25,7 @@ int get_info(FILE* fp,int *lines,int *chars,int *max,int *max_words,int *select)
 		else
 		{
 			temp_words++;
-			printf("char is %c and %d\n",c,temp_words);
+			// printf("char is %c and %d\n",c,temp_words);
 		}
 		*chars+=1;
 		if (c == '\n')

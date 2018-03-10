@@ -109,7 +109,7 @@ void AddNode(trieNode_t **root,char *key,int id)
 
 void printNode(trieNode_t **root,char *key)
 {
-	int found = 0 , finish = 1;
+	int found = 0 , finish = 1, flag = 0;
 	char *str = key;
 	char *str1 ;
 	char *buffer = malloc(sizeof(char)*(strlen(str)+1));
@@ -134,36 +134,36 @@ void printNode(trieNode_t **root,char *key)
 			if (tempNode->key == *key)
 			{
 				buffer[i] = tempNode->key;
+				flag = 1;
 				break;
 			}
 			else
 			{
-				found = 0;
 				while (tempNode->neighbor != NULL)
 				{
 					tempNode = tempNode->neighbor;
 					if (tempNode->key == *key)
 					{
 						buffer[i] = tempNode->key;
+						flag  = 1;
 						found = 1;
 						break;
 					}
 				}
+				if (!flag)
+					break;
 				if (found)
 					break;
 			}
 		}
+		printf("FLAG %d\n",flag);
+		if (!flag)
+			break;
+		flag = 0;
 		key++;
 
-		// if (tempNode->endofword && i==strlen(str)-1 && tempNode->key != *key)
-		// {
-		// 	printf("eow %d and %c.%s\n",tempNode->endofword,tempNode->key,str);
-		// 	printf("%s not found\n",str);
-		// 	finish = 0;
-		// 	break;
-		// }
 	}
-	buffer[i] = '\0'; 	//lathos na to ftiaxv
+	buffer[i] = '\0'; 	
 	if (!strncmp(buffer, str,strlen(str)) && tempNode->endofword)
 	{
 		finish = 1;
@@ -172,7 +172,6 @@ void printNode(trieNode_t **root,char *key)
 		{
 			printf("NAME is %s\n",l->name);
 		}
-		//printf("%s not found\n",str);
 	}
 	else
 	{
@@ -189,7 +188,7 @@ void printNode(trieNode_t **root,char *key)
 
 listNode *find_word(trieNode_t **root,char *key)
 {
-	int found = 0 , finish = 1;
+	int found = 0 , finish = 1 , flag = 0;
 	char *str = key;
 	char *str1 ;
 	char *buffer = malloc(sizeof(char)*(strlen(str)+1));
@@ -214,6 +213,7 @@ listNode *find_word(trieNode_t **root,char *key)
 			if (tempNode->key == *key)
 			{
 				buffer[i] = tempNode->key;
+				flag = 1;
 				break;
 			}
 			else
@@ -225,17 +225,32 @@ listNode *find_word(trieNode_t **root,char *key)
 					if (tempNode->key == *key)
 					{
 						buffer[i] = tempNode->key;
+
+						flag = 1;
 						found = 1;
 						break;
 					}
 				}
+				if (!flag)
+					break;
 				if (found)
 					break;
 			}
 		}
+		if (!flag)
+		{
+			finish = 0;
+			break;
+		}
+		flag = 0;
 		key++;
 	}
-	buffer[i] = '\0'; 	//lathos na to ftiaxv
+	buffer[i] = '\0'; 	
+	if (!flag && !finish)
+	{
+		printf("Find Word -> NOT FOUND\n");
+		return NULL;
+	}
 	if (!strcmp(buffer, str) && tempNode->endofword)
 	{
 		if (tempNode->plist == NULL)

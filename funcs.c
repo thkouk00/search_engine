@@ -1,34 +1,91 @@
 #include "funcs.h"
 
-double score(char* key, int* D, int avgdl, int lines, trieNode_t **root)
+void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode_t **root)
 {
 	double b = 0.75;
 	double k1 = 1.2;
-	double result = 0;
-	int i=0;
+	double result;
+	double logarithm;
+	double numerator = 0 , denuminator = 0;
+	int *sum;
+	int i,y;
 
-	listNode *lNode, *temp;
-	lNode = find_word(root,key);
-	printf("Yo\n");
-	if (lNode == NULL)
-		return 0;
-	temp = lNode;
+	listNode *lNode;
+	list_t **array, *temp;
+	
+	array = (list_t**)malloc(sizeof(list_t*)*lines);
+	for (i=0;i<lines;i++)
+		array[i] = NULL;
+	
+	sum = malloc(sizeof(int)*number_of_q);
 
-	while(temp->next !=NULL)
+	// insert_search(&array[0], 2, 3);
+	for (i=0;i<number_of_q;i++)
 	{
-		temp = temp->next;
-		i++;
+		sum[i] = 0;
+		lNode = find_word(root, tmpArr[i]);
+		if (lNode)
+		{
+			while (lNode->next)
+			{
+				lNode = lNode->next;
+				insert_search(&array[lNode->id], lNode->number_of_times, i);
+				sum[i]++;
+			}
+		}
 	}
 
-	//double logarithm = log(lines-i+0.5) - log(i+0.5);
-	double logarithm = log2((lines-i+0.5)/(i+0.5));
-	printf("Log %lf and avgdl %d\n",logarithm,avgdl);
-	while (lNode->next != NULL)
+	
+
+
+
+	for (i=0;i<lines;i++)
 	{
-		lNode = lNode->next;
-		result += logarithm*(lNode->number_of_times*(k1+1))/(lNode->number_of_times+(k1*(1-b+(b*D[lNode->id]/avgdl))));
-		printf("Result is %lf\n",result);
+		if (array[i] != NULL)
+		{
+			result = 0;
+			temp = array[i];
+			while (temp->next)
+			{
+				
+				temp = temp->next;
+				logarithm = log2((lines-sum[temp->word_from]+0.5)/(sum[temp->word_from]+0.5));
+				numerator = temp->number_of_times * (k1+1);
+				denuminator = temp->number_of_times + k1 * (1-b+(b*D[i])/avgdl);
+				result += logarithm * numerator / denuminator;
+				// printf("MPIKA res %lf\n",result);
+			}
+			printf("Result for line %d : %lf\n",i,result);
+			//insert result to max heap;
+		}
 	}
 
-	return result;
+
+
+
+
+	// for (i=0;i<number_of_q;i++)
+	// 	printf("SUM[%d] = %d\n",i,sum[i]);
+
+	// for (i=0;i<lines;i++)
+	// {
+	// 	temp = array[i];
+	// 	printf("i = %d\n",i);
+	// 	if (temp == NULL)
+	// 		continue;
+	// 	while (temp->next)
+	// 	{
+	// 		temp = temp->next;
+	// 		printf("number_of_times %d , word_from %d\n",temp->number_of_times,temp->word_from);
+	// 	}
+	// }
+
+	for (i=0;i<lines;i++)
+	{
+		FreeList_search(&array[i]);
+		free(array[i]);
+	}
+	free(array);
+	free(sum);
+
 }

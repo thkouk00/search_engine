@@ -122,16 +122,15 @@ int main(int argc, char *argv[])
 	printNode(&root,"file");
 	printNode(&root,"Ela");
 	printNode(&root,"Th");
+	printNode(&root,"este");
 	// printNode(&root,"tsiritsantoyles");
 	// printNode(&root,"-What-a-nice");
 	// printNode(&root,"poy");
 	// printNode(&root,"Christian");
 	
 	// // queries from user
-	// char *answer = malloc(sizeof(char)*SIZE);
 	
-	char *answer = malloc(sizeof(char)*(max_words+1));
-	// char *answer;
+	char *answer;
 	char *buf;
 	char tmp;
 	int found;
@@ -156,35 +155,47 @@ int main(int argc, char *argv[])
 		
 		if (!strncmp(buf, "/search", strlen("/search")))
 		{
+			//space to alloc -> 10*max words 
+			// max heap structure
+			i = 0;
+			answer = malloc(sizeof(char)*(10*max_words+11));	// 10words (max) + 10 spaces
 			printf("%s\n",buf);	
-			while ((tmp =getchar())!='\n')
-			{	
-				if (tmp == ' ')
-				{
-					i++;
-					if (i==10)
-						break;
-				}
-
-				// if (y == new_size-1)
-				// {
-				// 	new_size = new_size+5;
-				// 	answer = realloc(answer, new_size);
-				// }
-				answer[y] = tmp;
-				y++;
-				
-			}
-			i++;
-			answer[y] = '\0';
-			result = 0;
-			printf("\n i = %d and %s and y %d.\n",i,answer,y);
-			str1 = strtok(answer, delimiter);
-			while (str1!=NULL)
+			fgets(answer, 10*max_words+10, stdin);
+			if (answer[0] == '\n')
+				printf("Usage: /search q1 q2 . . . q10\n");
+			else
 			{
-				result = score(str1, D, avgdl, lines, &root);
-				printf("RESULT for %s einai %lf\n", str1,result);
-				str1 = strtok(NULL, delimiter);
+				str1 = strtok(answer, delimiter);
+				if (str1 == NULL)
+				{
+					printf("Usage: /search q1 q2 . . . q10\n");
+				}
+				else
+				{
+					char **tmpArr;
+					tmpArr = malloc(sizeof(char*)*10);
+
+					while (str1!=NULL)
+					{
+						if (i == 10)
+						{
+							printf("10 words completed\n");
+							break;
+						}
+						tmpArr[i] = malloc(sizeof(char)*(strlen(str1)+1));
+						strcpy(tmpArr[i], str1);
+						printf("RESULT for %s einai %lf kai %s\n", str1,result,tmpArr[i]);
+						str1 = strtok(NULL, delimiter);
+						i++;
+					}
+					score(tmpArr, i,D, avgdl, lines, &root);
+					printf("EDW\n");
+					// for (y=0;y<i;y++)
+					// 	printf("I=%d ->%s\n",y,tmpArr[y]);
+					for (y=0;y<i;y++)
+						free(tmpArr[y]);
+					free(tmpArr);
+				}
 			}
 			free(buf);
 			free(answer);
@@ -193,8 +204,9 @@ int main(int argc, char *argv[])
 		{
 			listNode *list = NULL;
 			int times;
+			answer = malloc(sizeof(char)*(max_words+1));
 			// memset(answer, '\0', max_words+1);
-			fgets(answer, max+1, stdin);
+			fgets(answer, max_words+1, stdin);
 			if (answer[0] == '\n')
 				df(&root);
 			else
@@ -216,31 +228,46 @@ int main(int argc, char *argv[])
 				}
 			}
 			free(buf);
+			free(answer);
 		}
 		else if (!strncmp(buf, "/tf", strlen("/tf")))
 		{
 			listNode *list = NULL;
 			int str2;
-			fgets(answer, max+1, stdin);
-			str2 = (int)atoi(strtok(answer, delimiter));
-			str1 = strtok(NULL, delimiter);
-			// printf("id .%d name .%s\n",str2,str1);
-			list = find_word(&root, str1);
-			if (list == NULL)
-				printf("%s not found!\n", str1);
+			answer = malloc(sizeof(char)*(max_words+sizeof(int)+3));
+			fgets(answer, max_words+sizeof(int)+2, stdin); 			// +1 is for space at first pos
+			// if (strlen(answer) == 1)
+			if (answer[0] == '\n')
+			{
+				printf("Usage: /tf id word\n");
+			}
 			else
 			{	
-				while (list->next)
+				str2 = (int)atoi(strtok(answer, delimiter));
+				str1 = strtok(NULL, delimiter);
+				if (str1 == NULL)
+					printf("Usage: /tf id word\n");
+				else
 				{
-					list = list->next;
-					if (list->id == str2)
-					{
-						printf("%s %d\n", str1,list->number_of_times);
-						break;
-					}	
+					list = find_word(&root, str1);
+					if (list == NULL)
+						printf("%s not found!\n", str1);
+					else
+					{	
+						while (list->next)
+						{
+							list = list->next;
+							if (list->id == str2)
+							{
+								printf("%s %d\n", str1,list->number_of_times);
+								break;
+							}	
+						}
+					}
 				}
 			}
 			free(buf);
+			free(answer);
 		}
 		else if (!strncmp(buf, "/exit", strlen("/exit")))
 		{
@@ -252,7 +279,7 @@ int main(int argc, char *argv[])
 		// free(buf);
 		// free(answer);
 	}
-	free(answer);
+	
 	for (int i=0;i<lines;i++)
 		free(arr[i]);
 	free(arr);
