@@ -46,7 +46,7 @@ void insert(listNode **head,int id,char *name)
 void print(listNode **head)
 {
 	listNode *cur = *head;
-	printf("PLIST NAME %s\n",cur->name);
+	// printf("PLIST NAME %s\n",cur->name);
 	if (cur->next == NULL)
 		printf("Empty list\n");
 	else
@@ -117,7 +117,7 @@ void insert_search(list_t **head,int number_of_times,int word_from)
 void print_search(list_t **head)
 {
 	list_t *cur = *head;
-	printf("PLIST NAME %d\n",cur->word_from);
+	// printf("PLIST NAME %d\n",cur->word_from);
 	if (cur->next == NULL)
 		printf("Empty list\n");
 	else

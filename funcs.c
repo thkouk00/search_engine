@@ -1,6 +1,6 @@
 #include "funcs.h"
 
-void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode_t **root)
+void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode_t **root,char **docs,int K)
 {
 	double b = 0.75;
 	double k1 = 1.2;
@@ -18,6 +18,10 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 		array[i] = NULL;
 	
 	sum = malloc(sizeof(int)*number_of_q);
+	max_heap **heap ;
+	heap = malloc(sizeof(max_heap*)*SIZE_HEAP);
+	for (i=0;i<SIZE_HEAP;i++)
+		heap[i] = NULL;
 
 	// insert_search(&array[0], 2, 3);
 	for (i=0;i<number_of_q;i++)
@@ -34,8 +38,6 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 			}
 		}
 	}
-
-	
 
 
 
@@ -57,11 +59,17 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 			}
 			printf("Result for line %d : %lf\n",i,result);
 			//insert result to max heap;
+			insert_heap(heap,result,i);
 		}
 	}
 
+	print_heap(heap);
 
-
+	for (i=0;i<K;i++)
+	{
+		if (heap[i] != NULL)
+			printf("%d.( %d) [%.4lf] %s",i+1,heap[i]->id,heap[i]->result,docs[heap[i]->id]);
+	}
 
 
 	// for (i=0;i<number_of_q;i++)
@@ -87,5 +95,6 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 	}
 	free(array);
 	free(sum);
+	Free_heap(heap);
 
 }

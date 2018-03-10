@@ -262,7 +262,7 @@ listNode *find_word(trieNode_t **root,char *key)
 		else
 		{
 			free(buffer);
-			printf("plist %d\n",tempNode->plist->number_of_times);
+			// printf("plist %d\n",tempNode->plist->number_of_times);
 			return tempNode->plist;
 		}
 	}

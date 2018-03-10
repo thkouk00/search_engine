@@ -20,7 +20,7 @@ void Usage(char *prog_name)			/* Usage */
 int main(int argc, char *argv[])
 {
 	FILE *fp;
-	int result_num = 10; 			// default 
+	int K = 10; 			// default 
 	int doc_flag = 0;				// flag for docfile -> exist or not
 	
 	if (argc < 2)
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 			}
 			else if (!strcmp(argv[i],"-k"))
 			{
-				result_num = atoi(argv[i+1]);
+				K = atoi(argv[i+1]);
 			}
 		}
 		if (!doc_flag){
@@ -184,11 +184,10 @@ int main(int argc, char *argv[])
 						}
 						tmpArr[i] = malloc(sizeof(char)*(strlen(str1)+1));
 						strcpy(tmpArr[i], str1);
-						printf("RESULT for %s einai %lf kai %s\n", str1,result,tmpArr[i]);
 						str1 = strtok(NULL, delimiter);
 						i++;
 					}
-					score(tmpArr, i,D, avgdl, lines, &root);
+					score(tmpArr, i,D, avgdl, lines, &root,arr,K);
 					printf("EDW\n");
 					// for (y=0;y<i;y++)
 					// 	printf("I=%d ->%s\n",y,tmpArr[y]);

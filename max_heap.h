@@ -1,22 +1,18 @@
-#ifdef _MAX_HEAPH_
-#define _MAX_HEAPH_
+#ifndef _MAXHEAPH_
+#define _MAXHEAPH_
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#define SIZE 10
+#define SIZE_HEAP 10
 
-typedef struct heap{
+typedef struct heap
+{
 	double result;
 	int id;
-}heap_t;
+}max_heap;
 
-void insert_heap(max_heap **,double);
-void delete_from_heap();
-void heapify();
-void free_heap();
-
-
-
-
+void insert_heap(max_heap **,double,int);
+void heapify(max_heap **);
+void print_heap(max_heap **);
+void Free_heap(max_heap **);
 #endif
