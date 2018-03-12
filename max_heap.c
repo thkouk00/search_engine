@@ -1,5 +1,7 @@
 #include "max_heap.h"
 
+// max heap implementation , used for /search query to pick K most relevant docs
+
 void insert_heap(max_heap **array,double result,int id)
 {
 	int i;

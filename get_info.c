@@ -1,5 +1,7 @@
 #include "get_info.h"
 
+// scan given text file and stores info about max length of words or sentences
+// and check if text is by the rules (succesive line numbers , ids etc)
 int get_info(FILE* fp,int *lines,int *chars,int *max,int *max_words,int *select)
 {
 
@@ -25,7 +27,6 @@ int get_info(FILE* fp,int *lines,int *chars,int *max,int *max_words,int *select)
 		else
 		{
 			temp_words++;
-			// printf("char is %c and %d\n",c,temp_words);
 		}
 		*chars+=1;
 		if (c == '\n')
@@ -46,8 +47,6 @@ int get_info(FILE* fp,int *lines,int *chars,int *max,int *max_words,int *select)
 			}
 			number = tmp;
 		}
-
-		//putchar(c);		// print input
 	}
 	*lines += 1;
 	if (c == EOF)
@@ -58,8 +57,6 @@ int get_info(FILE* fp,int *lines,int *chars,int *max,int *max_words,int *select)
 			*max = *chars;
 			*select = *lines;
 		}
-		printf("\nMax %d chars %d lines %d\n\n",*max,*chars,*lines);
-		printf("MAX WORDS %d\n",*max_words);
 	}
 	return 0;
 }

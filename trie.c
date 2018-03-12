@@ -24,7 +24,9 @@ trieNode_t * CreateTrieNode(char key)		//initialize root
 	return node;
 }
 
-
+// add node to trie
+// every node has only one child and one neighbor
+// always start from root
 void AddNode(trieNode_t **root,char *key,int id)
 {
 	char *tmpstr = key;
@@ -82,9 +84,10 @@ void AddNode(trieNode_t **root,char *key,int id)
 	
 	tempNode->endofword = 1;
 	listNode *cur = tempNode->plist;
-	insert(&(tempNode->plist),id,tmpstr);
+	insert(&(tempNode->plist),id,tmpstr);		// posting list for word
 }
 
+// print word if exists in trie , else print "not found"
 void printNode(trieNode_t **root,char *key)
 {
 	int found = 0 , finish = 1, flag = 0;
@@ -162,7 +165,8 @@ void printNode(trieNode_t **root,char *key)
 	free(buffer);
 }
 
-
+// find word returns posting list for a given word if exists , else returns NULL
+// same implementation as printNode
 listNode *find_word(trieNode_t **root,char *key)
 {
 	int found = 0 , finish = 1 , flag = 0;
@@ -225,14 +229,14 @@ listNode *find_word(trieNode_t **root,char *key)
 	buffer[i] = '\0'; 	
 	if (!flag && !finish)
 	{
-		printf("Find Word -> NOT FOUND\n");
+		// printf("Find Word -> NOT FOUND\n");
 		return NULL;
 	}
 	if (!strcmp(buffer, str) && tempNode->endofword)
 	{
 		if (tempNode->plist == NULL)
 		{
-			printf("EMPTY posting list for %s\n",key);
+			// printf("EMPTY posting list for %s\n",key);
 			free(buffer);
 			return NULL;
 		}
@@ -245,13 +249,16 @@ listNode *find_word(trieNode_t **root,char *key)
 	else
 	{
 		finish = 0;
-		printf("%s not found\n",str);
+		// printf("%s not found\n",str);
 		free(buffer);
 		return NULL;
 
 	}
 }
 
+// df takes zero or one argument
+// zero arguments , df returns every word from index with the number of docs each word is in
+// one argument , searche and find if exist the given word and print the number of docs as above
 void df(trieNode_t **root)
 {
 	stackNode_t *head = NULL;
@@ -297,7 +304,8 @@ void df(trieNode_t **root)
 }
 
 
-
+// free Trie structure
+// using stack structure
 void FreeTrie(trieNode_t **root)
 {
 	stackNode_t *head = NULL;

@@ -1,5 +1,7 @@
 #include "stack.h"
 
+//stack implementation , used for freeing the Trie structure and /df
+
 void push(stackNode_t **head, trieNode_t *Tnode)
 {
 	if (*head == NULL)

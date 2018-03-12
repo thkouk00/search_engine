@@ -1,5 +1,8 @@
 #include "list.h"
 
+// linked list implementation
+// one for posting list and one for /search 
+
 listNode *CreateList(listNode **head,char *name)
 {
 	*head = (listNode*)malloc(sizeof(struct list));
@@ -87,7 +90,7 @@ void FreeList(listNode **head)
 }
 
 
-//for search 
+//for /search 
 
 void insert_search(list_t **head,int number_of_times,int word_from)
 {

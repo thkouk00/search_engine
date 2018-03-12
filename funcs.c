@@ -1,5 +1,7 @@
 #include "funcs.h"
 
+// calculate score in order to print relevant docs for given words
+
 void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode_t **root,char **docs,int K,int max_words)
 {
 	double b = 0.75;
@@ -113,14 +115,15 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 	Free_heap(heap);
 
 }
-//na kaw ta free kai edw kai panw
+
+// function to underline words given from /search query 
 void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
 	char delimiter[] = " \t\n";
-
+	// printf("STR %ld\n",strlen(docs)+len);
 	int i,sum = len,flag = 0;
 	char *str, *str1;
 	int *flags = malloc(sizeof(int)*number_of_q);
@@ -159,50 +162,34 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 	while (i<strlen(docs))
 	{
 		loop++;
-		if (loop == 1)
+		while (i<(w.ws_col*loop)-len-1 && i<strlen(docs))
 		{
-			while (i<w.ws_col-len && i<strlen(docs))
-			{
-				printf("%c",docs[i]);
-				i++;
-			}
-			for (l=0;l<len;l++)
-				printf(" ");
+			printf("%c",docs[i]);
+			i++;
 		}
-		else
-		{
-			while (i<w.ws_col*loop && i<strlen(docs))
-			{
-				printf("%c",docs[i]);
-				i++;
-			}
-		}
-		
+		// printf("I %d\n", i);
 		z = 0;
 		for (y=0;y<number_of_q;y++)
 		{
 			if (flags[y])	
 				continue;
-			if (loop == 1)
-				length[y] -= len;
-			else
-				length[y] +=len;
+			// if (!strcmp(tmpArr[y],"basket"))
+			// 	printf("YES %d\n",i);
+			if (length[y]>=i)
+				i+=len;
 			if (length[y]<i)
 			{
-				// if (!flags[y])
-				// {
-					if (z<length[y]-1)
-					{
-						length[y]= length[y] - w.ws_col*(loop-1);
-					}
-				// }
-
-				while (z<length[y]-1)
+				// printf("loop %d and length %d adn %d\n",loop,length[y],y);
+				if (z<length[y]-1)
+				{
+					length[y]= length[y] - w.ws_col*(loop-1);
+				}
+				while (z<length[y])
 				{
 					printf(" ");
 					z++;
 				}
-				while (z>=length[y]-1 && z<length[y]+strlen(tmpArr[y])-1)
+				while (z>=length[y] && z<length[y]+strlen(tmpArr[y]))
 				{
 					printf("^");
 					z++;
@@ -212,11 +199,13 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 		}
 		printf("\n");
 	}
-	printf("\n");
+	// printf("\n");
 
 	free(flags);
 	free(str);
 }
+
+// helper functions
 
 void sort_array(int *length, char **tmpArr,int number_of_q)
 {

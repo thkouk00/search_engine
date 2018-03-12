@@ -66,15 +66,13 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Malloc failed.\n");
 
 	char *str;
-	str = malloc(sizeof(char)*max);				// temp string , htan max+1 
+	str = malloc(sizeof(char)*max);					// temp string , htan max+1 
 	if (str == NULL)
 		fprintf(stderr, "Malloc failed.\n");
 	
 	fseek(fp, 0, SEEK_SET);
 
-	clock_t begin1 = clock();
-
-	for (i=0;i<lines;i++)						//store sentences in array
+	for (i=0;i<lines;i++)							//store sentences in array
 	{
 		fscanf(fp, "%s ",str);
 		fgets(str, max, fp);
@@ -85,10 +83,6 @@ int main(int argc, char *argv[])
 	}	
 
 	fclose(fp);
-
-	clock_t end1 = clock();
-	double time_spent1 = (double)(end1-begin1) / CLOCKS_PER_SEC;
-	printf("TIME1 %lf\n",time_spent1);
 	
 	int *D = (int*)malloc(sizeof(int)*lines);
 	for (i=0;i<lines;i++)
@@ -100,28 +94,22 @@ int main(int argc, char *argv[])
 	char *str1;
 	char delimiter[] = " \t\n"; 
 
-	clock_t begin = clock();
-
 	for (i =0;i<lines;i++)
 	{
 		strncpy(str, arr[i], strlen(arr[i])+1);
 		str1 = strtok(str, delimiter);
 		while (str1!=NULL)
 		{
-			D[i]++;						//how many words in every sentence
+			D[i]++;						//how many words there are in every sentence
 			AddNode(&root,str1,i);
 			str1 = strtok(NULL, delimiter);
 		}
 	}
 	
-	clock_t end = clock();
-	double time_spent = (double)(end-begin) / CLOCKS_PER_SEC;
-	printf("TIME %lf\n",time_spent);
-	
-	printNode(&root,"file");
-	printNode(&root,"Ela");
-	printNode(&root,"Th");
-	printNode(&root,"este");
+	// printNode(&root,"file");
+	// printNode(&root,"Ela");
+	// printNode(&root,"Th");
+	// printNode(&root,"este");
 	// printNode(&root,"tsiritsantoyles");
 	// printNode(&root,"-What-a-nice");
 	// printNode(&root,"poy");
@@ -134,7 +122,7 @@ int main(int argc, char *argv[])
 	char tmp;
 	int found;
 	
-	int avgdl = 0;		//for search
+	int avgdl = 0;				// average number of words in index
 	for (i=0;i<lines;i++)
 	{
 		avgdl += D[i];
@@ -143,7 +131,7 @@ int main(int argc, char *argv[])
 	int y = 0;
 	int new_size = SIZE;
 	double result;
-	while(1)
+	while(1)					// User queries -> /search , /df , /tf , /exit
 	{
 		y = 0;
 		i = 0;
@@ -267,6 +255,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	
+	// free program
 	for (int i=0;i<lines;i++)
 		free(arr[i]);
 	free(arr);
