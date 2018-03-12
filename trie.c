@@ -45,25 +45,17 @@ void AddNode(trieNode_t **root,char *key,int id)
 		if (tempNode->children == NULL)		
 		{
 			tempNode->children = CreateTrieNode(*key);	
-			tempNode = tempNode->children;			
-			//key++;								 
+			tempNode = tempNode->children;											 
 		}
 		else
 		{
 			tempNode = tempNode->children;	
-			// if (tempNode->key == *key)
-			// {
-			// 	;//key++;
-			// 	//tempNode = tempNode->children;
-			// }
-			// else
 			if (tempNode->key != *key)
 			{
 				if (tempNode->neighbor == NULL)
 				{
 					tempNode->neighbor = CreateTrieNode(*key);
 					tempNode = tempNode->neighbor;
-					//key++;
 				}
 				else
 				{
@@ -73,8 +65,6 @@ void AddNode(trieNode_t **root,char *key,int id)
 						tempNode = tempNode->neighbor;
 						if (tempNode->key == *key)
 						{
-							//tempNode = tempNode->neighbor;
-							//key++;
 							flag++;
 							break;
 						}
@@ -83,28 +73,16 @@ void AddNode(trieNode_t **root,char *key,int id)
 					{
 						tempNode->neighbor = CreateTrieNode(*key);
 						tempNode = tempNode->neighbor;
-						//key++;
 					}
 				}
 			}
 		}
-		// tmp1 = key;
-		// tmp1++;
-		// if (*tmp1 == '\0')
-		// {	
-		// 	tempNode->endofword = 1;
-		// 	break;
-		// }
 		key++;
 	}
 	
 	tempNode->endofword = 1;
-	// printf("%c and eow %d for %s\n",tempNode->key,tempNode->endofword,tmpstr);
 	listNode *cur = tempNode->plist;
-	// printf("TMPSTR %s\n",tmpstr);
 	insert(&(tempNode->plist),id,tmpstr);
-	// print(&(tempNode->plist));		//print plist
-	
 }
 
 void printNode(trieNode_t **root,char *key)
@@ -262,7 +240,6 @@ listNode *find_word(trieNode_t **root,char *key)
 		else
 		{
 			free(buffer);
-			// printf("plist %d\n",tempNode->plist->number_of_times);
 			return tempNode->plist;
 		}
 	}
@@ -291,15 +268,12 @@ void df(trieNode_t **root)
 		tempNode = tempNode->children;
 		while (tempNode)
 		{
-			// tempNode = tempNode->children;
 			if (tempNode->neighbor)
 			{
 				push(&head, tempNode->neighbor);
-				// printf("PUSH %c\n",tempNode->neighbor->key);
 			}
 			if (tempNode->plist)
 			{
-				// printf("MPIKA %c\n",tempNode->key);
 				times = 0;
 				plist = tempNode->plist;
 				while (plist->next)
@@ -342,15 +316,12 @@ void FreeTrie(trieNode_t **root)
 		tempNode = pop(&head);
 		if (tempNode == NULL)
 			break;
-		// printf("Pop %c\n",tempNode->key);
 		if(tempNode->neighbor != NULL)
 		{
 			push(&head, tempNode);
 			cur = tempNode;
-			// printf("Before push %c\n",tempNode->key);
 			tempNode = tempNode->neighbor;
 			cur->neighbor = NULL;
-			// printf("Kanv push %c\n",tempNode->key);
 			push(&head,tempNode);
 			while (tempNode->children)
 			{
@@ -365,11 +336,9 @@ void FreeTrie(trieNode_t **root)
 				FreeList(&tempNode->plist);
 				free(tempNode->plist);
 			}
-			// printf("DELETING %c\n",tempNode->key);
 			free(tempNode);
 		}
 	}
-	printf("FREETRIE %p and %p\n",head,head->next);
 	free(head);
 	free(*root);
 }

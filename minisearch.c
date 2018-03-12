@@ -82,7 +82,6 @@ int main(int argc, char *argv[])
 		if (arr[i] == NULL)
 			printf("array malloc failed\n");
 		strncpy(arr[i], str, strlen(str)+1);
-		//printf("i=%d and word %s\n",i,arr[i]);
 	}	
 
 	fclose(fp);
@@ -138,11 +137,9 @@ int main(int argc, char *argv[])
 	int avgdl = 0;		//for search
 	for (i=0;i<lines;i++)
 	{
-		// printf("D[%d]=%d\n",i,D[i]);
 		avgdl += D[i];
 	}
 	avgdl = avgdl/lines;
-	// printf("avgdl %d\n",avgdl);
 	int y = 0;
 	int new_size = SIZE;
 	double result;
@@ -187,10 +184,7 @@ int main(int argc, char *argv[])
 						str1 = strtok(NULL, delimiter);
 						i++;
 					}
-					score(tmpArr, i,D, avgdl, lines, &root,arr,K);
-					printf("EDW\n");
-					// for (y=0;y<i;y++)
-					// 	printf("I=%d ->%s\n",y,tmpArr[y]);
+					score(tmpArr, i,D, avgdl, lines, &root,arr,K,max_words);
 					for (y=0;y<i;y++)
 						free(tmpArr[y]);
 					free(tmpArr);
@@ -204,14 +198,12 @@ int main(int argc, char *argv[])
 			listNode *list = NULL;
 			int times;
 			answer = malloc(sizeof(char)*(max_words+1));
-			// memset(answer, '\0', max_words+1);
 			fgets(answer, max_words+1, stdin);
 			if (answer[0] == '\n')
 				df(&root);
 			else
 			{
 				str1 = strtok(answer, delimiter);
-				// printf("NAME .%s and length %ld and .%s.\n", answer,strlen(answer),str1);
 				list = find_word(&root, str1);
 				if (list == NULL)
 					printf("%s not found!\n", str1);
@@ -235,7 +227,6 @@ int main(int argc, char *argv[])
 			int str2;
 			answer = malloc(sizeof(char)*(max_words+sizeof(int)+3));
 			fgets(answer, max_words+sizeof(int)+2, stdin); 			// +1 is for space at first pos
-			// if (strlen(answer) == 1)
 			if (answer[0] == '\n')
 			{
 				printf("Usage: /tf id word\n");
@@ -272,11 +263,8 @@ int main(int argc, char *argv[])
 		{
 			printf("Exit\n");
 			free(buf);
-			// free(answer);
 			break;
 		}
-		// free(buf);
-		// free(answer);
 	}
 	
 	for (int i=0;i<lines;i++)
@@ -284,9 +272,7 @@ int main(int argc, char *argv[])
 	free(arr);
 	free(D);
 	free(str);
-
 	FreeTrie(&root);
-	//na kanw ta free
 
 	return 0;
 }

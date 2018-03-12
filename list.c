@@ -8,7 +8,6 @@ listNode *CreateList(listNode **head,char *name)
 	(*head)->next = NULL;
 	(*head)->name = malloc(sizeof(char)*(strlen(name)+1));
 	strcpy((*head)->name, name);
-	//(*head)->name = name;
 	return *head;
 }
 
@@ -32,7 +31,6 @@ void insert(listNode **head,int id,char *name)
 	}
 	if (!flag)
 	{
-		//printf("MPIKA list\n");
 		listNode *n = (listNode*)malloc(sizeof(struct list));
 		n->id = id;
 		n->number_of_times = 1;
@@ -46,17 +44,14 @@ void insert(listNode **head,int id,char *name)
 void print(listNode **head)
 {
 	listNode *cur = *head;
-	// printf("PLIST NAME %s\n",cur->name);
 	if (cur->next == NULL)
 		printf("Empty list\n");
 	else
 	{
-		//printf("Total value %d\n",cur->number_of_times);
 		while (cur->next !=NULL)
 		{
 			cur = cur->next;
 			printf("id %d and number_of_times %d\n\n",cur->id,cur->number_of_times);
-			//cur = cur->next;
 		}
 	}
 }
@@ -84,7 +79,6 @@ void FreeList(listNode **head)
 		{
 			temp = cur->next;
 			cur->next = temp->next;
-			// printf("LIST id %d number %d\n",temp->id,temp->number_of_times);
 			free(temp);
 			if (cur == NULL)
 				break;
@@ -106,7 +100,6 @@ void insert_search(list_t **head,int number_of_times,int word_from)
 	}
 	list_t *cur = *head;
 
-	//printf("MPIKA list\n");
 	list_t *n = (list_t*)malloc(sizeof(struct list_search));
 	n->number_of_times = number_of_times;
 	n->word_from = word_from;
@@ -117,17 +110,14 @@ void insert_search(list_t **head,int number_of_times,int word_from)
 void print_search(list_t **head)
 {
 	list_t *cur = *head;
-	// printf("PLIST NAME %d\n",cur->word_from);
 	if (cur->next == NULL)
 		printf("Empty list\n");
 	else
 	{
-		//printf("Total value %d\n",cur->number_of_times);
 		while (cur->next !=NULL)
 		{
 			cur = cur->next;
 			printf("number_of_times %d\n\n",cur->number_of_times);
-			//cur = cur->next;
 		}
 	}
 }
@@ -142,7 +132,6 @@ void FreeList_search(list_t **head)
 		{
 			temp = cur->next;
 			cur->next = temp->next;
-			// printf("LIST id %d number %d\n",temp->id,temp->number_of_times);
 			free(temp);
 			if (cur == NULL)	//mallon axristo
 			{
