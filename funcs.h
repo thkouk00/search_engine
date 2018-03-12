@@ -10,6 +10,6 @@
 
 void score(char**, int,int*, int, int , trieNode_t **,char **,int,int);
 void underline(char **,int ,char *,int *);
-void heapify_length(int *, char **,int );
+void sort_array(int *, char **,int );
 
 #endif

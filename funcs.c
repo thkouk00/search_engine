@@ -70,7 +70,7 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 		}
 	}
 
-	print_heap(heap);
+	// print_heap(heap);
 
 	for (i=0;i<K;i++)
 	{
@@ -120,34 +120,41 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length)
 
 	int i,sum = 0,flag = 0;
 	char *str, *str1;
-
+	int *flags = malloc(sizeof(int)*number_of_q);
 	str = malloc(sizeof(char)*(strlen(docs)+1));
 	strncpy(str, docs, strlen(docs));
+	for (i=0;i<number_of_q;i++)
+	{
+		length[i] = 99999999;
+		flags[i] = 0;
+	}
+
 	str1 = strtok(str, delimiter);
 	while (str1!=NULL)
 	{
 		for (i=0;i<number_of_q;i++)
 		{
-			length[i] = -1;
+			// length[i] = -1;
 			if (tmpArr[i]!=NULL)
 			{
 				if (!strcmp(str1, tmpArr[i]))
 				{
 					length[i] = sum+1;
 					flag = 1;
-					heapify_length(length, tmpArr, number_of_q);
-					break;
+					// heapify_length(length, tmpArr, number_of_q);
+					// break;
 				}
 			}				
 		}
 		sum+=strlen(str1)+1;
 		str1 = strtok(NULL, delimiter);
 	}
-	printf("DOC %s\n",docs);
-	for (i=0;i<number_of_q;i++)
-	{
-		printf("L %d and %s\n", length[i],tmpArr[i]);
-	}
+	sort_array(length, tmpArr, number_of_q);
+	// printf("DOC %s\n",docs);
+	// for (i=0;i<number_of_q;i++)
+	// {
+	// 	printf("L %d and %s\n", length[i],tmpArr[i]);
+	// }
 	// printf("DOC\n%s",docs);
 	int loop = 0;
 	int z = 0,l=0;
@@ -163,22 +170,27 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length)
 		}
 		// printf("\n");
 		if (loop==1)
-		for (l=0;l<16;l++)
-			printf(" ");
+		{
+			for (l=0;l<16;l++)
+				printf(" ");
+		}
 		z = 0;
 		for (y=0;y<number_of_q;y++)
 		{
-			if (tmpArr[y]==NULL)
+			// if (tmpArr[y]==NULL)
+			if (flags[y])	
 				continue;
 			if (length[y]<i)
 			{
-				if (tmpArr[y]!=NULL )//&& loop!=1)
+				// if (tmpArr[y]!=NULL )//&& loop!=1)
+				if (!flags[y])
 				{
 					if (z<length[y]-1)
 					{
 						length[y]= length[y] - w.ws_col*(loop-1);
 					}
 				}
+
 				while (z<length[y]-1)
 				{
 					printf(" ");
@@ -188,10 +200,12 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length)
 				{
 					printf("^");
 					z++;
-					flag = 1;
+					flags[y] = 1;
+					// flag = 1;
 				}
-				if (flag)
-					tmpArr[y] = NULL;
+				// if (flag)
+				// 	length[y] = -1;
+					// tmpArr[y] = NULL;
 			}
 		}
 		printf("\n");
@@ -200,40 +214,61 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length)
 
 }
 
-void heapify_length(int *length, char **tmpArr,int number_of_q)
+void sort_array(int *length, char **tmpArr,int number_of_q)
 {
-	int i;
+	int i,j;
 	int temp;
 	char *tmparr;
 	
-	printf("HEAPIFY BEFORE\n");
+	// printf("HEAPIFY BEFORE\n");
+	// for (i=0;i<number_of_q;i++)
+	// {
+	// 	printf("%s\n", tmpArr[i]);
+	// }
+	// printf("AR %d\n", number_of_q);
 	for (i=0;i<number_of_q;i++)
 	{
-		printf("%s\n", tmpArr[i]);
-	}
-
-	for (i=number_of_q-1;i>=0;i--)
-	{
-		if (length[i] != -1)
+		for (j=i;j<number_of_q;j++)
 		{
-			if ((length[i] < length[(i-1)/2]) && length[i] >=0)
+			// printf("%d > %d\n", length[i],length[j]);
+			if (length[i]>length[j])
 			{
-				// printf("%d > %d\n",length[i],length[(i-1)/2]);
-				temp = length[i]; 
+				temp = length[i];
 				tmparr = tmpArr[i];
-				length[i] = length[(i-1)/2];
-				tmpArr[i] = tmpArr[(i-1)/2];
-				length[(i-1)/2] = temp;
-				tmpArr[(i-1)/2] = tmparr;
-			}	
+				length[i] = length[j];
+				tmpArr[i] = tmpArr[j];
+				length[j] = temp;
+				tmpArr[j] = tmparr;
+			}
+			// printf("i = %d\n",i);
 		}
 	}
 
-	printf("HEAPIFY AFTER\n");
-	for (i=0;i<number_of_q;i++)
-	{
-		printf("%s\n", tmpArr[i]);
-	}
+
+
+
+	// for (i=number_of_q-1;i>=0;i--)
+	// {
+	// 	if (length[i] != -1)
+	// 	{
+	// 		if ((length[i] < length[(i-1)/2]) && length[i] >=0)
+	// 		{
+	// 			// printf("%d > %d\n",length[i],length[(i-1)/2]);
+	// 			temp = length[i]; 
+	// 			tmparr = tmpArr[i];
+	// 			length[i] = length[(i-1)/2];
+	// 			tmpArr[i] = tmpArr[(i-1)/2];
+	// 			length[(i-1)/2] = temp;
+	// 			tmpArr[(i-1)/2] = tmparr;
+	// 		}	
+	// 	}
+	// }
+
+	// printf("HEAPIFY AFTER\n");
+	// for (i=0;i<number_of_q;i++)
+	// {
+	// 	printf("%s\n", tmpArr[i]);
+	// }
 
 	// for (i=0;i<number_of_q;i++)
 	// {
