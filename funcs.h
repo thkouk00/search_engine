@@ -9,7 +9,8 @@
 #include "max_heap.h"
 
 void score(char**, int,int*, int, int , trieNode_t **,char **,int,int);
-void underline(char **,int ,char *,int *);
+void underline(char **,int ,char *,int *,int);
 void sort_array(int *, char **,int );
+int std_input_size(int ,int , int);
 
 #endif

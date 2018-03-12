@@ -134,7 +134,6 @@ void printNode(trieNode_t **root,char *key)
 					break;
 			}
 		}
-		printf("FLAG %d\n",flag);
 		if (!flag)
 			break;
 		flag = 0;

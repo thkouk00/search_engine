@@ -7,7 +7,6 @@ void push(stackNode_t **head, trieNode_t *Tnode)
 		*head = (stackNode_t*)malloc(sizeof(struct stack));
 		(*head)->Tnode = NULL;
 		(*head)->next = NULL;
-		printf("Head Created %p\n",(*head));
 	}
 	stackNode_t *tempNode;
 	stackNode_t *cur;
@@ -44,7 +43,7 @@ trieNode_t *pop(stackNode_t **head)
 
 	if (tempNode->next == NULL)
 	{
-		printf("Empty stack.\nDelete Head...\n");
+		// printf("Empty stack.\nDelete Head...\n");
 		return NULL;
 	}
 	else
