@@ -121,9 +121,8 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
 	char delimiter[] = " \t\n";
-	// printf("STR %ld\n",strlen(docs)+len);
+	// printf("STR %ld and %d\n",strlen(docs)+len,len);
 	int i,sum = len,flag = 0;
 	char *str, *str1;
 	int *flags = malloc(sizeof(int)*number_of_q);
@@ -145,7 +144,7 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 				if (!strcmp(str1, tmpArr[i]))
 				{
 					length[i] = sum+1;
-					flag = 1;
+					// flag = 1;
 				}
 			}				
 		}
@@ -162,34 +161,39 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 	while (i<strlen(docs))
 	{
 		loop++;
-		while (i<(w.ws_col*loop)-len-1 && i<strlen(docs))
+		while (i<(w.ws_col*loop)-len && i<strlen(docs))//+len-1)	//htan -1 to len edw,den ftanei to i sto telos
 		{
 			printf("%c",docs[i]);
 			i++;
 		}
+		// exit(1);
 		// printf("I %d\n", i);
+		
 		z = 0;
 		for (y=0;y<number_of_q;y++)
 		{
 			if (flags[y])	
 				continue;
-			// if (!strcmp(tmpArr[y],"basket"))
-			// 	printf("YES %d\n",i);
-			if (length[y]>=i)
-				i+=len;
-			if (length[y]<i)
+			
+			// if (!strcmp(tmpArr[y],"syspro"))
+			// 	printf("HRE i %d and %d\n",i,length[y]);
+			// exit(1);
+			if (length[y]<i+len-1)
 			{
 				// printf("loop %d and length %d adn %d\n",loop,length[y],y);
 				if (z<length[y]-1)
 				{
 					length[y]= length[y] - w.ws_col*(loop-1);
 				}
-				while (z<length[y])
+				// if (!strcmp(tmpArr[y],"syspro"))
+				// 	printf("HRE\n");
+				// exit(1);
+				while (z<length[y]-1)
 				{
 					printf(" ");
 					z++;
 				}
-				while (z>=length[y] && z<length[y]+strlen(tmpArr[y]))
+				while (z>=length[y]-1 && z<length[y]+strlen(tmpArr[y])-1)
 				{
 					printf("^");
 					z++;
@@ -199,6 +203,7 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 		}
 		printf("\n");
 	}
+	printf("I %d\n",i);
 	// printf("\n");
 
 	free(flags);
@@ -235,18 +240,24 @@ int std_input_size(int i,int id, int result)
 	int tt = 0;
 	int len = 0;
 	tt = i;
+	if (tt ==0)
+		len++;
 	while (tt>0)
 	{
 		tt = tt/10;
 		len++;
 	}
 	tt = id;
+	if (tt ==0)
+		len++;
 	while (tt>0)
 	{
 		tt = tt/10;
 		len++;
 	}
 	tt = result;
+	if (tt ==0)
+		len++;
 	while (tt>0)
 	{
 		tt = tt/10;
