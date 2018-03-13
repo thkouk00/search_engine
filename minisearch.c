@@ -106,16 +106,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	
-	// printNode(&root,"file");
-	// printNode(&root,"Ela");
-	// printNode(&root,"Th");
-	// printNode(&root,"este");
-	// printNode(&root,"tsiritsantoyles");
-	// printNode(&root,"-What-a-nice");
-	// printNode(&root,"poy");
-	// printNode(&root,"Christian");
-	
-	// // queries from user
+	// queries from user
 	
 	char *answer;
 	char *buf;
@@ -255,7 +246,7 @@ int main(int argc, char *argv[])
 		}
 	}
 	
-	// free program
+	// free memory
 	for (int i=0;i<lines;i++)
 		free(arr[i]);
 	free(arr);

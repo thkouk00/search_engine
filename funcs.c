@@ -25,8 +25,7 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 	for (i=0;i<SIZE_HEAP;i++)
 		heap[i] = NULL;
 
-	// char **A = malloc(sizeof(char*)*number_of_q);		//for underline
-	int *length = malloc(sizeof(int)*number_of_q);
+	int *length = malloc(sizeof(int)*number_of_q);		//for underline
 	
 	for (i=0;i<number_of_q;i++)
 		length[i] = -1;
@@ -66,7 +65,7 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 				denuminator = temp->number_of_times + k1 * (1-b+(b*D[i])/avgdl);
 				result += logarithm * numerator / denuminator;
 			}
-			printf("Result for line %d : %lf\n",i,result);
+			// printf("Result for line %d : %lf\n",i,result);
 			//insert result to max heap;
 			insert_heap(heap,result,i);
 		}
@@ -117,6 +116,9 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 }
 
 // function to underline words given from /search query 
+// scan doc file for given words , if we find a word we store the current length
+// so we can find where to underline , after finding the lenght for the words 
+// i sort the array according to length (min to max) .
 void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 {
 	struct winsize w;
@@ -161,12 +163,13 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 	while (i<strlen(docs))
 	{
 		loop++;
-		while (i<(w.ws_col*loop)-len && i<strlen(docs))//+len-1)	//htan -1 to len edw,den ftanei to i sto telos
+		while (i<(w.ws_col*loop)-len && i<strlen(docs))	//htan -1 to len edw,den ftanei to i sto telos
 		{
 			printf("%c",docs[i]);
 			i++;
 		}
-		// exit(1);
+		if (i==strlen(docs))
+			printf("\n");
 		// printf("I %d\n", i);
 		
 		z = 0;
@@ -175,19 +178,14 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 			if (flags[y])	
 				continue;
 			
-			// if (!strcmp(tmpArr[y],"syspro"))
-			// 	printf("HRE i %d and %d\n",i,length[y]);
-			// exit(1);
-			if (length[y]<i+len-1)
+			if (length[y]<i+len)	//eixe len-1
 			{
 				// printf("loop %d and length %d adn %d\n",loop,length[y],y);
 				if (z<length[y]-1)
 				{
 					length[y]= length[y] - w.ws_col*(loop-1);
 				}
-				// if (!strcmp(tmpArr[y],"syspro"))
-				// 	printf("HRE\n");
-				// exit(1);
+				
 				while (z<length[y]-1)
 				{
 					printf(" ");
@@ -203,7 +201,6 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 		}
 		printf("\n");
 	}
-	printf("I %d\n",i);
 	// printf("\n");
 
 	free(flags);

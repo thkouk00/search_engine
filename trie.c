@@ -44,17 +44,17 @@ void AddNode(trieNode_t **root,char *key,int id)
 	
 	while (*key != '\0')
 	{
-		if (tempNode->children == NULL)		
+		if (tempNode->children == NULL)		//if child is NULL then create new Node
 		{
 			tempNode->children = CreateTrieNode(*key);	
 			tempNode = tempNode->children;											 
 		}
 		else
 		{
-			tempNode = tempNode->children;	
-			if (tempNode->key != *key)
+			tempNode = tempNode->children;			//if child exists , check if key is already in Node
+			if (tempNode->key != *key)				// if key is different then check for neighbors
 			{
-				if (tempNode->neighbor == NULL)
+				if (tempNode->neighbor == NULL)		// if there are not any neighbors create new Node 
 				{
 					tempNode->neighbor = CreateTrieNode(*key);
 					tempNode = tempNode->neighbor;
@@ -62,7 +62,7 @@ void AddNode(trieNode_t **root,char *key,int id)
 				else
 				{
 					int flag = 0;
-					while (tempNode->neighbor != NULL)
+					while (tempNode->neighbor != NULL)		//else if neighbor exists check for key
 					{
 						tempNode = tempNode->neighbor;
 						if (tempNode->key == *key)
@@ -186,7 +186,7 @@ listNode *find_word(trieNode_t **root,char *key)
 	
 	tempNode = *root;
 	int i;
-	for (i=0;i<strlen(str);i++)
+	for (i=0;i<strlen(str);i++)					//compare child nodes or neighbors for given key
 	{
 		while (tempNode->children!=NULL)
 		{
@@ -258,7 +258,7 @@ listNode *find_word(trieNode_t **root,char *key)
 
 // df takes zero or one argument
 // zero arguments , df returns every word from index with the number of docs each word is in
-// one argument , searche and find if exist the given word and print the number of docs as above
+// one argument , search and find if exist the given word and print the number of docs as above
 void df(trieNode_t **root)
 {
 	stackNode_t *head = NULL;
@@ -272,7 +272,7 @@ void df(trieNode_t **root)
 	else
 	{
 		tempNode = tempNode->children;
-		while (tempNode)
+		while (tempNode)									//use stack to traverse Trie and find every word
 		{
 			if (tempNode->neighbor)
 			{

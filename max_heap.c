@@ -28,7 +28,7 @@ void heapify(max_heap **array)
 		{
 			if (array[i]->result > array[(i-1)/2]->result)
 			{
-				printf("%lf > %lf\n",array[i]->result,array[(i-1)/2]->result);
+				// printf("%lf > %lf\n",array[i]->result,array[(i-1)/2]->result);
 				temp = array[i]; 
 				array[i] = array[(i-1)/2];
 				array[(i-1)/2] = temp;

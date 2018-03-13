@@ -3,7 +3,7 @@
 // linked list implementation
 // one for posting list and one for /search 
 
-listNode *CreateList(listNode **head,char *name)
+listNode *CreateList(listNode **head,char *name)		//create head for list
 {
 	*head = (listNode*)malloc(sizeof(struct list));
 	(*head)->id = -1;
@@ -22,7 +22,7 @@ void insert(listNode **head,int id,char *name)
 	}
 	listNode *cur = *head;
 	int flag = 0;
-	while (cur->next !=NULL)
+	while (cur->next !=NULL)		//search the list if id exists , if yes increment number_of_times
 	{
 		cur = cur->next;
 		if (cur->id == id)
@@ -32,7 +32,7 @@ void insert(listNode **head,int id,char *name)
 			break;
 		}
 	}
-	if (!flag)
+	if (!flag)						// else create new node for id
 	{
 		listNode *n = (listNode*)malloc(sizeof(struct list));
 		n->id = id;
