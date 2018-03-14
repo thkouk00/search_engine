@@ -20,7 +20,7 @@ void Usage(char *prog_name)			/* Usage */
 int main(int argc, char *argv[])
 {
 	FILE *fp;
-	int K = 10; 			// default 
+	int K = 10; 					// default 
 	int doc_flag = 0;				// flag for docfile -> exist or not
 	
 	if (argc < 2)
@@ -135,7 +135,6 @@ int main(int argc, char *argv[])
 			// max heap structure
 			i = 0;
 			answer = malloc(sizeof(char)*(10*max_words+11));	// 10words (max) + 10 spaces
-			printf("%s\n",buf);	
 			fgets(answer, 10*max_words+10, stdin);
 			if (answer[0] == '\n')
 				printf("Usage: /search q1 q2 . . . q10\n");
@@ -176,8 +175,8 @@ int main(int argc, char *argv[])
 		{
 			listNode *list = NULL;
 			int times;
-			answer = malloc(sizeof(char)*(max_words+1));
-			fgets(answer, max_words+1, stdin);
+			answer = malloc(sizeof(char)*(max_words+2));
+			fgets(answer, max_words+2, stdin);
 			if (answer[0] == '\n')
 				df(&root);
 			else
@@ -205,7 +204,7 @@ int main(int argc, char *argv[])
 			listNode *list = NULL;
 			int str2;
 			answer = malloc(sizeof(char)*(max_words+sizeof(int)+3));
-			fgets(answer, max_words+sizeof(int)+2, stdin); 			// +1 is for space at first pos
+			fgets(answer, max_words+sizeof(int)+2, stdin); 			
 			if (answer[0] == '\n')
 			{
 				printf("Usage: /tf id word\n");

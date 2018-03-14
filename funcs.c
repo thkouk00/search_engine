@@ -25,14 +25,6 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 	for (i=0;i<SIZE_HEAP;i++)
 		heap[i] = NULL;
 
-	int *length = malloc(sizeof(int)*number_of_q);		//for underline
-	
-	for (i=0;i<number_of_q;i++)
-		length[i] = -1;
-	// underline(tmpArr, number_of_q, docs[0], length);
-	//call underline
-	// printf("SCORE %d %d\n",length[0],length[1]);
-
 	for (i=0;i<number_of_q;i++)
 	{
 		sum[i] = 0;
@@ -65,13 +57,10 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 				denuminator = temp->number_of_times + k1 * (1-b+(b*D[i])/avgdl);
 				result += logarithm * numerator / denuminator;
 			}
-			// printf("Result for line %d : %lf\n",i,result);
 			//insert result to max heap;
 			insert_heap(heap,result,i);
 		}
 	}
-
-	// print_heap(heap);
 
 	int len = 0;
 	for (i=0;i<K;i++)
@@ -79,30 +68,13 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 		if (heap[i] != NULL){
 			printf("%d.( %d) [%.4lf] ",i+1,heap[i]->id,heap[i]->result);
 			//pairnw to i-osto apotelesma tou heap kai apo ekei vrisko to id gia to keimeno
-			//kai epeita to vazv gia ipogrammisi/.
+			//kai epeita to vazv gia ipogrammisi.
 			len = std_input_size(i+1,heap[i]->id,heap[i]->result);
 			len+=13; //for spaces () etc
-			underline(tmpArr, number_of_q, docs[heap[i]->id], length,len);
-			// printf("%d.( %d) [%.4lf] %s",i+1,heap[i]->id,heap[i]->result,docs[heap[i]->id]);
+			underline(tmpArr, number_of_q, docs[heap[i]->id],len);
 		}
 	}
 
-	//Print info
-	// for (i=0;i<number_of_q;i++)
-	// 	printf("SUM[%d] = %d\n",i,sum[i]);
-
-	// for (i=0;i<lines;i++)
-	// {
-	// 	temp = array[i];
-	// 	printf("i = %d\n",i);
-	// 	if (temp == NULL)
-	// 		continue;
-	// 	while (temp->next)
-	// 	{
-	// 		temp = temp->next;
-	// 		printf("number_of_times %d , word_from %d\n",temp->number_of_times,temp->word_from);
-	// 	}
-	// }
 
 	for (i=0;i<lines;i++)
 	{
@@ -118,24 +90,20 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 // function to underline words given from /search query 
 // scan doc file for given words , if we find a word we store the current length
 // so we can find where to underline , after finding the lenght for the words 
-// i sort the array according to length (min to max) .
-void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
+void underline(char **tmpArr,int number_of_q,char *docs,int len)
 {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	char delimiter[] = " \t\n";
-	// printf("STR %ld and %d\n",strlen(docs)+len,len);
+	
 	int i,sum = len,flag = 0;
 	char *str, *str1;
-	int *flags = malloc(sizeof(int)*number_of_q);
+	
 	str = malloc(sizeof(char)*(strlen(docs)+1));
 	strncpy(str, docs, strlen(docs));
-	for (i=0;i<number_of_q;i++)
-	{
-		length[i] = 99999999;
-		flags[i] = 0;
-	}
-
+	
+	list_t *length = NULL;
+	
 	str1 = strtok(str, delimiter);
 	while (str1!=NULL)
 	{
@@ -145,91 +113,69 @@ void underline(char **tmpArr,int number_of_q,char *docs,int *length,int len)
 			{
 				if (!strcmp(str1, tmpArr[i]))
 				{
-					length[i] = sum+1;
-					// flag = 1;
+					insert_search(&length, sum+1, i);
+					break;
 				}
 			}				
 		}
 		sum+=strlen(str1)+1;
 		str1 = strtok(NULL, delimiter);
 	}
-	sort_array(length, tmpArr, number_of_q);
-	// for (int l =0;l<number_of_q;l++)
-	// 	printf("lenght[%d] %d\n",l,length[l]);
 	int loop = 0;
 	int z = 0,l=0;
 	int y = 0;
+	list_t *temp = length;
 	i=0;
-	while (i<strlen(docs))
+	if (temp)
 	{
-		loop++;
-		while (i<(w.ws_col*loop)-len && i<strlen(docs))	//htan -1 to len edw,den ftanei to i sto telos
+		while (i<strlen(docs))
 		{
-			printf("%c",docs[i]);
-			i++;
-		}
-		if (i==strlen(docs))
-			printf("\n");
-		// printf("I %d\n", i);
-		
-		z = 0;
-		for (y=0;y<number_of_q;y++)
-		{
-			if (flags[y])	
-				continue;
+			loop++;
 			
-			if (length[y]<i+len)	//eixe len-1
+			while (i<(w.ws_col*loop)-len && i<strlen(docs))	
 			{
-				// printf("loop %d and length %d adn %d\n",loop,length[y],y);
-				if (z<length[y]-1)
-				{
-					length[y]= length[y] - w.ws_col*(loop-1);
-				}
+				printf("%c",docs[i]);
+				i++;
+			}
+
+			if (i==strlen(docs))
+				printf("\n");
+		
+			z = 0;
+			while (temp->next && temp->next->number_of_times < i+len)
+			{
+				temp = temp->next;
 				
-				while (z<length[y]-1)
+				if (temp->number_of_times < i+len)
 				{
-					printf(" ");
-					z++;
+					if (z<temp->number_of_times-1)
+					{
+						temp->number_of_times = temp->number_of_times - w.ws_col*(loop-1);
+					}
+				
+					while (z<temp->number_of_times-1)
+					{
+						printf(" ");
+						z++;
+					}
+					while (z>temp->number_of_times-2 && z<temp->number_of_times+strlen(tmpArr[temp->word_from])-1)
+					{
+						printf("^");
+						z++;
+						flag = 1;
+					}
+					if (!flag)
+						break;
+						
 				}
-				while (z>=length[y]-1 && z<length[y]+strlen(tmpArr[y])-1)
-				{
-					printf("^");
-					z++;
-					flags[y] = 1;
-				}
-			}
+					
+			}	
+			printf("\n");
 		}
-		printf("\n");
 	}
-	// printf("\n");
-
-	free(flags);
 	free(str);
-}
-
-// helper functions
-
-void sort_array(int *length, char **tmpArr,int number_of_q)
-{
-	int i,j;
-	int temp;
-	char *tmparr;
-	
-	for (i=0;i<number_of_q;i++)
-	{
-		for (j=i;j<number_of_q;j++)
-		{
-			if (length[i]>length[j])
-			{
-				temp = length[i];
-				tmparr = tmpArr[i];
-				length[i] = length[j];
-				tmpArr[i] = tmpArr[j];
-				length[j] = temp;
-				tmpArr[j] = tmparr;
-			}
-		}
-	}
+	FreeList_search(&length);
+	free(length);
 }
 
 int std_input_size(int i,int id, int result)
@@ -253,6 +199,11 @@ int std_input_size(int i,int id, int result)
 		len++;
 	}
 	tt = result;
+	if (tt<0)
+	{
+		tt = tt * (-1);
+		len++;
+	}
 	if (tt ==0)
 		len++;
 	while (tt>0)
@@ -260,6 +211,6 @@ int std_input_size(int i,int id, int result)
 		tt = tt/10;
 		len++;
 	}
-	// printf("lenght %d\n",len);
+	
 	return len;
 }

@@ -229,14 +229,12 @@ listNode *find_word(trieNode_t **root,char *key)
 	buffer[i] = '\0'; 	
 	if (!flag && !finish)
 	{
-		// printf("Find Word -> NOT FOUND\n");
 		return NULL;
 	}
 	if (!strcmp(buffer, str) && tempNode->endofword)
 	{
 		if (tempNode->plist == NULL)
 		{
-			// printf("EMPTY posting list for %s\n",key);
 			free(buffer);
 			return NULL;
 		}
@@ -249,7 +247,6 @@ listNode *find_word(trieNode_t **root,char *key)
 	else
 	{
 		finish = 0;
-		// printf("%s not found\n",str);
 		free(buffer);
 		return NULL;
 

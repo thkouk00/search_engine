@@ -22,7 +22,6 @@ void push(stackNode_t **head, trieNode_t *Tnode)
 		tempNode = tempNode->next;
 		tempNode->Tnode = Tnode;
 		tempNode->next = NULL;
-		// printf("CHAR %c\n",tempNode->Tnode->key);
 	}
 	else
 	{
@@ -30,8 +29,6 @@ void push(stackNode_t **head, trieNode_t *Tnode)
 		cur->Tnode = Tnode;
 		cur->next = tempNode->next;
 		tempNode->next = cur;
-		// printf("CHAR %c\n",cur->Tnode->key);
-
 	}
 
 }
@@ -45,7 +42,6 @@ trieNode_t *pop(stackNode_t **head)
 
 	if (tempNode->next == NULL)
 	{
-		// printf("Empty stack.\nDelete Head...\n");
 		return NULL;
 	}
 	else

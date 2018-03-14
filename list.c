@@ -94,20 +94,42 @@ void FreeList(listNode **head)
 
 void insert_search(list_t **head,int number_of_times,int word_from)
 {
-	if (*head == NULL)
+	list_t *n;
+
+	if (*head == NULL)											//new code
 	{
 		*head = (list_t*)malloc(sizeof(struct list_search));
 		(*head)->number_of_times = -1;
 		(*head)->word_from = -1;
 		(*head)->next = NULL;
+		// printf("VREAET\n");
 	}
 	list_t *cur = *head;
 
-	list_t *n = (list_t*)malloc(sizeof(struct list_search));
-	n->number_of_times = number_of_times;
-	n->word_from = word_from;
-	n->next = cur->next;
-	cur->next = n;
+
+	if (cur->next == NULL)
+	{
+		n = (list_t*)malloc(sizeof(struct list_search));
+		n->number_of_times = number_of_times;
+		n->word_from = word_from;
+		n->next = cur->next;
+		cur->next = n;
+
+	}
+	else
+	{
+		while (cur->next)
+		{
+			cur = cur->next;
+		}
+		cur->next = (list_t*)malloc(sizeof(struct list_search));
+		cur = cur->next;
+		cur->number_of_times = number_of_times;
+		cur->word_from = word_from;
+		cur->next = NULL;
+	
+	}
+
 }
 
 void print_search(list_t **head)
@@ -136,7 +158,7 @@ void FreeList_search(list_t **head)
 			temp = cur->next;
 			cur->next = temp->next;
 			free(temp);
-			if (cur == NULL)	//mallon axristo
+			if (cur == NULL)	//never in here probably
 			{
 				free(cur);
 				break;
