@@ -21,8 +21,10 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 	
 	sum = malloc(sizeof(int)*number_of_q);
 	max_heap **heap ;
-	heap = malloc(sizeof(max_heap*)*SIZE_HEAP);
-	for (i=0;i<SIZE_HEAP;i++)
+	
+	heap = malloc(sizeof(max_heap*)*lines);
+	
+	for (i=0;i<lines;i++)
 		heap[i] = NULL;
 
 	for (i=0;i<number_of_q;i++)
@@ -39,9 +41,6 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 			}
 		}
 	}
-
-
-
 	for (i=0;i<lines;i++)
 	{
 		if (array[i] != NULL)
@@ -50,15 +49,14 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 			temp = array[i];
 			while (temp->next)
 			{
-				
 				temp = temp->next;
 				logarithm = log2((lines-sum[temp->word_from]+0.5)/(sum[temp->word_from]+0.5));
 				numerator = temp->number_of_times * (k1+1);
-				denuminator = temp->number_of_times + k1 * (1-b+(b*D[i])/avgdl);
-				result += logarithm * numerator / denuminator;
+				denuminator = temp->number_of_times + (k1 * (1-b+((b*D[i])/avgdl)));
+				result = result + (logarithm * (numerator / denuminator));
 			}
 			//insert result to max heap;
-			insert_heap(heap,result,i);
+			insert_heap(heap,result,i,lines);
 		}
 	}
 
@@ -73,6 +71,7 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 			len+=13; //for spaces () etc
 			underline(tmpArr, number_of_q, docs[heap[i]->id],len);
 		}
+		len = 0;
 	}
 
 
@@ -83,7 +82,7 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 	}
 	free(array);
 	free(sum);
-	Free_heap(heap);
+	Free_heap(heap,lines);
 
 }
 

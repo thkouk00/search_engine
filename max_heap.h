@@ -11,8 +11,8 @@ typedef struct heap
 	int id;
 }max_heap;
 
-void insert_heap(max_heap **,double,int);
-void heapify(max_heap **);
-void print_heap(max_heap **);
-void Free_heap(max_heap **);
+void insert_heap(max_heap **,double,int,int);
+void heapify(max_heap **,int);
+void print_heap(max_heap **,int);
+void Free_heap(max_heap **,int);
 #endif
