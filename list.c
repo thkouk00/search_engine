@@ -102,7 +102,6 @@ void insert_search(list_t **head,int number_of_times,int word_from)
 		(*head)->number_of_times = -1;
 		(*head)->word_from = -1;
 		(*head)->next = NULL;
-		// printf("VREAET\n");
 	}
 	list_t *cur = *head;
 

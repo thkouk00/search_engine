@@ -56,7 +56,7 @@ void score(char **tmpArr, int number_of_q,int* D, double avgdl, int lines, trieN
 				denuminator = temp->number_of_times + (k1 * (1-b+((b*D[i])/avgdl)));
 				result = result + (logarithm * (numerator / denuminator));
 			}
-			//insert result to max heap;
+			//insert result to min heap;
 			insert_heap(heap,result,i,lines);
 		}
 	}

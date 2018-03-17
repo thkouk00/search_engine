@@ -1,6 +1,6 @@
 #include "min_heap.h"
 
-// max heap implementation , used for /search query to pick K most relevant docs
+// min heap implementation , used for /search query to pick K most relevant docs
 
 void insert_heap(min_heap **array,double result,int id,int lines)
 {
@@ -58,8 +58,8 @@ void heapsort(min_heap **array, int lines)
 void print_heap(min_heap **array,int lines)
 {
 	int i;
-	// for (i=0;i<SIZE_HEAP;i++)
-	for (i=0;i<386;i++)
+	
+	for (i=0;i<lines;i++)
 	{
 		if (array[i] != NULL)
 			printf("i:%d and result %lf and id %d\n",i,array[i]->result,array[i]->id);

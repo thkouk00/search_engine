@@ -112,9 +112,8 @@ int main(int argc, char *argv[])
 	char *buf;
 	char tmp;
 	int found;
-	
-	// int avgdl = 0;				// average number of words in index
-	double avgdl = 0.0;
+					
+	double avgdl = 0.0;				// average number of words in index
 	for (i=0;i<lines;i++)
 	{
 		avgdl += D[i];
@@ -133,7 +132,7 @@ int main(int argc, char *argv[])
 		if (!strncmp(buf, "/search", strlen("/search")))
 		{
 			//space to alloc -> 10*max words 
-			// max heap structure
+			// min heap structure
 			i = 0;
 			answer = malloc(sizeof(char)*(10*max_words+11));	// 10words (max) + 10 spaces
 			fgets(answer, 10*max_words+10, stdin);
