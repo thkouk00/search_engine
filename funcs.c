@@ -2,7 +2,7 @@
 
 // calculate score in order to print relevant docs for given words
 
-void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode_t **root,char **docs,int K,int max_words)
+void score(char **tmpArr, int number_of_q,int* D, double avgdl, int lines, trieNode_t **root,char **docs,int K,int max_words)
 {
 	double b = 0.75;
 	double k1 = 1.2;
@@ -20,9 +20,9 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 		array[i] = NULL;
 	
 	sum = malloc(sizeof(int)*number_of_q);
-	max_heap **heap ;
+	min_heap **heap ;
 	
-	heap = malloc(sizeof(max_heap*)*lines);
+	heap = malloc(sizeof(min_heap*)*lines);
 	
 	for (i=0;i<lines;i++)
 		heap[i] = NULL;
@@ -41,6 +41,7 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 			}
 		}
 	}
+	
 	for (i=0;i<lines;i++)
 	{
 		if (array[i] != NULL)
@@ -60,6 +61,8 @@ void score(char **tmpArr, int number_of_q,int* D, int avgdl, int lines, trieNode
 		}
 	}
 
+	heapsort(heap,lines);
+	
 	int len = 0;
 	for (i=0;i<K;i++)
 	{

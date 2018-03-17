@@ -1,15 +1,15 @@
-#include "max_heap.h"
+#include "min_heap.h"
 
 // max heap implementation , used for /search query to pick K most relevant docs
 
-void insert_heap(max_heap **array,double result,int id,int lines)
+void insert_heap(min_heap **array,double result,int id,int lines)
 {
 	int i;
 	for (i=0;i<lines;i++)
 	{
 		if (array[i] == NULL)
 		{
-			array[i] = malloc(sizeof(max_heap));
+			array[i] = malloc(sizeof(min_heap));
 			array[i]->result = result;
 			array[i]->id = id;
 			heapify(array,lines);
@@ -18,15 +18,15 @@ void insert_heap(max_heap **array,double result,int id,int lines)
 	}
 }
 
-void heapify(max_heap **array,int lines)
+void heapify(min_heap **array,int lines)
 {
 	int i;
-	max_heap *temp;
+	min_heap *temp;
 	for (i=lines-1;i>=0;i--)
 	{
 		if (array[i] != NULL)
 		{
-			if (array[i]->result > array[(i-1)/2]->result)
+			if (array[i]->result < array[(i-1)/2]->result)
 			{
 				temp = array[i]; 
 				array[i] = array[(i-1)/2];
@@ -36,7 +36,26 @@ void heapify(max_heap **array,int lines)
 	}
 }
 
-void print_heap(max_heap **array,int lines)
+void heapsort(min_heap **array, int lines)
+{
+	int i;
+	min_heap *temp;
+	for (i=lines-1;i>0;i--)
+	{
+
+		if (array[i]!=NULL)
+		{
+			temp = array[0];
+			array[0] = array[i];
+			array[i] = temp;
+			heapify(array, i-1);
+		}
+	}
+
+}
+
+
+void print_heap(min_heap **array,int lines)
 {
 	int i;
 	// for (i=0;i<SIZE_HEAP;i++)
@@ -47,7 +66,7 @@ void print_heap(max_heap **array,int lines)
 	}
 }
 
-void Free_heap(max_heap **array,int lines)
+void Free_heap(min_heap **array,int lines)
 {
 	int i;
 	for (i=0;i<lines;i++)

@@ -113,7 +113,8 @@ int main(int argc, char *argv[])
 	char tmp;
 	int found;
 	
-	int avgdl = 0;				// average number of words in index
+	// int avgdl = 0;				// average number of words in index
+	double avgdl = 0.0;
 	for (i=0;i<lines;i++)
 	{
 		avgdl += D[i];
